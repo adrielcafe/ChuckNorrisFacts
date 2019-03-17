@@ -2,6 +2,7 @@ package cafe.adriel.chucknorrisfacts
 
 import android.app.Application
 import android.os.StrictMode
+import cafe.adriel.chucknorrisfacts.di.AppComponent
 import cafe.adriel.chucknorrisfacts.extension.debug
 import com.github.ajalt.timberkt.Timber
 import com.pacoworks.rxpaper2.RxPaperBook
@@ -35,7 +36,7 @@ class App : Application() {
         startKoin {
             androidLogger(if (BuildConfig.RELEASE) Level.ERROR else Level.DEBUG)
             androidContext(applicationContext)
-            // TODO Add modules
+            modules(AppComponent.getModules())
         }
 
         RxPaperBook.init(this)
