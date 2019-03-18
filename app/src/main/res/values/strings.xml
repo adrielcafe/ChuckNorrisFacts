@@ -4,5 +4,6 @@
 
     <string name="search">Search</string>
     <string name="share">Share</string>
+    <string name="no_facts">No facts, yet</string>
     <string name="uncategorized">Uncategorized</string>
 </resources>

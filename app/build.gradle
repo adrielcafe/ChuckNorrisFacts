@@ -88,11 +88,15 @@ dependencies {
     implementation "org.koin:koin-android-viewmodel:2.0.0-beta-5"
     
     // Immutable State
-    implementation "com.airbnb.android:mvrx:0.7.2"
+    implementation "com.github.etiennelenhart:eiffel:4.1.0"
+
+    // View
+    implementation "cz.kinst.jakub:android-stateful-layout-base:2.0.8"
+    implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.16"
 
     // Util
-    implementation "com.link184:kid-adapter:1.1.7"
     implementation "com.github.ajalt:timberkt:1.5.1"
+    implementation "com.link184:kid-adapter:1.1.7"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$leakcanary_version"
