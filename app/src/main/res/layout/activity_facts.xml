@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.facts.FactsActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/vToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:menu="@menu/facts"
+            app:title="@string/app_name_full"
+            app:titleTextAppearance="@style/Toolbar.Title"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <cz.kinst.jakub.view.StatefulLayout
+        android:id="@+id/vStateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/vFacts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_fact"/>
+
+    </cz.kinst.jakub.view.StatefulLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

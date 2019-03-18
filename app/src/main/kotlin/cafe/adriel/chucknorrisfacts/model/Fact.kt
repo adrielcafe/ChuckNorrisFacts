@@ -8,6 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class Fact(
     @Json(name = "value")
     val text: String,
+    val url: String,
     @Json(name = "category")
     val categories: List<String>? = null
 ) : Parcelable

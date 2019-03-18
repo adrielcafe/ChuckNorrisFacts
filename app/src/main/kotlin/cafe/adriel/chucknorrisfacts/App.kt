@@ -36,7 +36,7 @@ class App : Application() {
         startKoin {
             androidLogger(if (BuildConfig.RELEASE) Level.ERROR else Level.DEBUG)
             androidContext(applicationContext)
-            modules(AppComponent.getModules())
+            modules(AppComponent(applicationContext).getModules())
         }
 
         RxPaperBook.init(this)
