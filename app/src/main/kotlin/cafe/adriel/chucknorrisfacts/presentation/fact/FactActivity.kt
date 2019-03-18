@@ -2,6 +2,8 @@ package cafe.adriel.chucknorrisfacts.presentation.fact
 
 import android.content.ClipDescription
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import cafe.adriel.chucknorrisfacts.R
@@ -16,7 +18,7 @@ class FactActivity : AppCompatActivity() {
 
     companion object {
         const val FACT_TEXT_LENGTH_LIMIT = 80
-        const val FACT_TEXT_SIZE_BIG = 20f
+        const val FACT_TEXT_SIZE_BIG = 18f
         const val FACT_TEXT_SIZE_SMALL = 14f
     }
 
@@ -25,23 +27,47 @@ class FactActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fact)
+        setSupportActionBar(vToolbar)
 
         initAdapter()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.fact, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        R.id.action_search -> {
+            // TODO
+            true
+        }
+        else -> false
     }
 
     private fun initAdapter(){
         adapter = vFacts.setUp<Fact> {
             withLayoutResId(R.layout.item_fact)
-            bind { item ->
+            bind { fact ->
                 if(this is MaterialCardView) isClickable = false
 
-                vFact.text = item.text
-                vFact.textSize = getFactTextSize(item)
-                vCategory.text = getFactCategory(item)
+                vFact.text = fact.text
+                vFact.textSize = getFactTextSize(fact)
 
-                vShare.setOnClickListener { shareFact(item) }
+                vCategory.text = getFactCategory(fact)
+                vCategory.isAllCaps = true
+
+                vShare.setOnClickListener { shareFact(fact) }
             }
         }
+
+        // TODO test facts
+        adapter + listOf(
+            Fact("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod", "..."),
+            Fact("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", "..."),
+            Fact("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod", "..."),
+            Fact("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", "...")
+        )
     }
 
     private fun shareFact(fact: Fact) =

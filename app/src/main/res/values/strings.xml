@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Chuck Facts</string>
+    <string name="app_name_full" translatable="false">Chuck Norris Facts</string>
 
+    <string name="search">Search</string>
+    <string name="share">Share</string>
     <string name="uncategorized">Uncategorized</string>
 </resources>
