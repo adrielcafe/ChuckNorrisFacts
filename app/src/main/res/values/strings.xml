@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Chuck Facts</string>
+
+    <string name="uncategorized">Uncategorized</string>
 </resources>
