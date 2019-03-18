@@ -14,7 +14,7 @@
         android:allowBackup="true"
         android:supportsRtl="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.main.MainActivity">
+        <activity android:name=".presentation.fact.FactActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
