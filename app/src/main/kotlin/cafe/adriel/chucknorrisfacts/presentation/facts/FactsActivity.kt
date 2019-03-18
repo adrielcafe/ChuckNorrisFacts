@@ -41,7 +41,6 @@ class FactsActivity : BaseActivity<FactsState>() {
 
         initLayoutState()
         initAdapter()
-        viewModel.setQuery("movie")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
