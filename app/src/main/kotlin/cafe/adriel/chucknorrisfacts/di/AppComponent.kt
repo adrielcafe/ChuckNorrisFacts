@@ -3,6 +3,7 @@ package cafe.adriel.chucknorrisfacts.di
 import android.content.Context
 import cafe.adriel.chucknorrisfacts.BuildConfig
 import cafe.adriel.chucknorrisfacts.presentation.facts.FactsViewModel
+import cafe.adriel.chucknorrisfacts.presentation.search.SearchViewModel
 import cafe.adriel.chucknorrisfacts.repository.ServiceFactory
 import cafe.adriel.chucknorrisfacts.repository.fact.FactRepository
 import cafe.adriel.chucknorrisfacts.repository.fact.FactService
@@ -25,6 +26,7 @@ class AppComponent(private val appContext: Context) : Component {
     }
     private val viewModelModule = module {
         viewModel { FactsViewModel(appContext = appContext, factRepository = get()) }
+        viewModel { SearchViewModel(factRepository = get(), searchRepository = get()) }
     }
 
     override fun getModules() = listOf(

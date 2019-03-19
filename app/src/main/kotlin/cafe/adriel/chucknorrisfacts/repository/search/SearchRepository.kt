@@ -7,25 +7,31 @@ import io.reactivex.schedulers.Schedulers
 class SearchRepository(private val preferences: RxPaperBook) {
 
     companion object {
-        private const val PREF_SEARCH_QUERIES = "searchQueries"
-        private const val MAX_SEARCH_TERMS = 5
+        private const val PREF_PAST_SEARCHES = "pastSearches"
+        private const val MAX_SEARCH_QUERIES = 8
     }
 
-    fun getSearchQueries() =
-        preferences.read<List<String>>(PREF_SEARCH_QUERIES, emptyList())
+    fun getPastSearches() =
+        preferences.read<List<String>>(PREF_PAST_SEARCHES, emptyList())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun addSearchQuery(term: String) =
-        getSearchQueries()
+    fun addSearchQuery(query: String) =
+        getPastSearches()
             .map { terms ->
-                // Add the new term to the top and only return the first 5 elements
                 terms.toMutableList()
-                    .also { it.add(0, term) }
-                    .take(MAX_SEARCH_TERMS)
+                    .also {
+                        // Remove old query, if it exists, to avoid duplicates
+                        if(it.contains(query)){
+                            it.removeAll { it == query }
+                        }
+                        // Add the new term to the top
+                        it.add(0, query)
+                    }
+                    .take(MAX_SEARCH_QUERIES)
             }
             .doOnSuccess { terms ->
-                preferences.write(PREF_SEARCH_QUERIES, terms).blockingAwait()
+                preferences.write(PREF_PAST_SEARCHES, terms).blockingAwait()
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

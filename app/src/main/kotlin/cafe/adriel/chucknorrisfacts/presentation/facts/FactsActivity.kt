@@ -9,8 +9,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.app.ShareCompat
 import cafe.adriel.chucknorrisfacts.R
+import cafe.adriel.chucknorrisfacts.extension.intentFor
 import cafe.adriel.chucknorrisfacts.model.Fact
 import cafe.adriel.chucknorrisfacts.presentation.BaseActivity
+import cafe.adriel.chucknorrisfacts.presentation.search.SearchActivity
 import com.google.android.material.card.MaterialCardView
 import com.link184.kidadapter.setUp
 import com.link184.kidadapter.simple.SingleKidAdapter
@@ -22,8 +24,6 @@ class FactsActivity : BaseActivity<FactsState>() {
 
     companion object {
         private const val REQUEST_QUERY = 0
-
-        private const val EXTRA_QUERY = "query"
 
         private const val LAYOUT_STATE_CONTENT = "content"
         private const val LAYOUT_STATE_PROGRESS = "progress"
@@ -39,6 +39,8 @@ class FactsActivity : BaseActivity<FactsState>() {
         setContentView(R.layout.activity_facts)
         setSupportActionBar(vToolbar)
 
+        vFacts.itemAnimator = null
+
         initLayoutState()
         initAdapter()
     }
@@ -46,7 +48,8 @@ class FactsActivity : BaseActivity<FactsState>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode == REQUEST_QUERY){
             if(resultCode == Activity.RESULT_OK) {
-                data?.getStringExtra(EXTRA_QUERY)?.let {
+                val query = data?.getStringExtra(SearchActivity.RESULT_QUERY)
+                query?.let {
                     viewModel.setQuery(it)
                 }
             }
@@ -62,7 +65,7 @@ class FactsActivity : BaseActivity<FactsState>() {
 
     override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
         R.id.action_search -> {
-            // TODO
+            startActivityForResult(intentFor<SearchActivity>(), REQUEST_QUERY)
             true
         }
         else -> false
@@ -73,9 +76,11 @@ class FactsActivity : BaseActivity<FactsState>() {
             when {
                 isLoading -> setLayoutState(LAYOUT_STATE_PROGRESS)
                 facts.isEmpty() -> setLayoutState(LAYOUT_STATE_EMPTY)
-                else -> setLayoutState(LAYOUT_STATE_CONTENT)
+                else -> {
+                    setAdapterItems(facts)
+                    setLayoutState(LAYOUT_STATE_CONTENT)
+                }
             }
-            setAdapterItems(facts)
         }
     }
 
@@ -83,6 +88,7 @@ class FactsActivity : BaseActivity<FactsState>() {
         val layoutInflater = LayoutInflater.from(this)
         vStateLayout.setStateView(LAYOUT_STATE_PROGRESS, layoutInflater.inflate(R.layout.state_loading, null))
         vStateLayout.setStateView(LAYOUT_STATE_EMPTY, layoutInflater.inflate(R.layout.state_empty, null))
+        setLayoutState(LAYOUT_STATE_EMPTY)
     }
 
     private fun initAdapter(){
