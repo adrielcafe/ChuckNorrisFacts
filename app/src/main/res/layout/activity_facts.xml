@@ -19,7 +19,7 @@
             android:layout_height="?actionBarSize"
             app:menu="@menu/facts"
             app:title="@string/app_name_full"
-            app:titleTextAppearance="@style/Toolbar.Title"/>
+            app:titleTextAppearance="@style/ToolbarTitle"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
