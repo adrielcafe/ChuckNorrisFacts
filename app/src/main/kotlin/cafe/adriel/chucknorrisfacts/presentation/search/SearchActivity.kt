@@ -16,7 +16,7 @@ import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_search.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SearchActivity : BaseActivity<SearchState>() {
+class SearchActivity : BaseActivity<SearchViewState>() {
 
     companion object {
         const val RESULT_QUERY = "query"
@@ -44,7 +44,7 @@ class SearchActivity : BaseActivity<SearchState>() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    override fun onStateUpdated(state: SearchState) {
+    override fun onStateUpdated(state: SearchViewState) {
         state.apply {
             if(suggestions.isEmpty()){
                 vSuggestionsLabel.visibility = View.GONE

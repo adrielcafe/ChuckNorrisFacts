@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_facts.*
 import kotlinx.android.synthetic.main.item_fact.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class FactsActivity : BaseActivity<FactsState>() {
+class FactsActivity : BaseActivity<FactsViewState>() {
 
     companion object {
         private const val REQUEST_QUERY = 0
@@ -72,7 +72,7 @@ class FactsActivity : BaseActivity<FactsState>() {
         else -> false
     }
 
-    override fun onStateUpdated(state: FactsState) {
+    override fun onStateUpdated(state: FactsViewState) {
         state.apply {
             if(facts.isEmpty()){
                 setLayoutState(LAYOUT_STATE_EMPTY)

@@ -1,5 +1,6 @@
 package cafe.adriel.chucknorrisfacts.presentation.search
 
+import cafe.adriel.chucknorrisfacts.extension.getUserFriendlyMessage
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewModel
 import cafe.adriel.chucknorrisfacts.repository.fact.FactRepository
@@ -9,32 +10,12 @@ import io.reactivex.rxkotlin.plusAssign
 class SearchViewModel(
     val factRepository: FactRepository,
     val searchRepository: SearchRepository
-) : BaseViewModel<SearchState>() {
+) : BaseViewModel<SearchViewState>() {
 
     init {
-        initState { SearchState() }
+        initState { SearchViewState() }
         loadSuggestions()
         loadPastSearches()
-    }
-
-    private fun loadSuggestions(){
-        disposables += factRepository.getCategories()
-            .subscribe({ categories ->
-                updateState { it.copy(suggestions = categories) }
-            }, { error ->
-                error.printStackTrace()
-                updateState { it.copy(event = BaseViewEvent.Error(error.localizedMessage)) }
-            })
-    }
-
-    private fun loadPastSearches(){
-        disposables += searchRepository.getPastSearches()
-            .subscribe({ pastSearches ->
-                updateState { it.copy(pastSearches = pastSearches) }
-            }, { error ->
-                error.printStackTrace()
-                updateState { it.copy(event = BaseViewEvent.Error(error.localizedMessage)) }
-            })
     }
 
     fun saveQuery(query: String) {
@@ -42,5 +23,25 @@ class SearchViewModel(
     }
 
     fun formatQuery(query: String) = query.toLowerCase().trim()
+
+    private fun loadSuggestions(){
+        disposables += factRepository.getCategories()
+            .subscribe({ result ->
+                updateState { it.copy(suggestions = result) }
+            }, ::handleError)
+    }
+
+    private fun loadPastSearches(){
+        disposables += searchRepository.getPastSearches()
+            .subscribe({ result ->
+                updateState { it.copy(pastSearches = result) }
+            }, ::handleError)
+    }
+
+    private fun handleError(error: Throwable){
+        val message = error.getUserFriendlyMessage()
+        updateState { it.copy(event = BaseViewEvent.Error(message)) }
+        error.printStackTrace()
+    }
 
 }

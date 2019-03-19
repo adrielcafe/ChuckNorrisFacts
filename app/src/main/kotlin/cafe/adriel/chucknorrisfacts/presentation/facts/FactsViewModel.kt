@@ -2,7 +2,7 @@ package cafe.adriel.chucknorrisfacts.presentation.facts
 
 import android.content.Context
 import cafe.adriel.chucknorrisfacts.R
-import cafe.adriel.chucknorrisfacts.extension.ifConnected
+import cafe.adriel.chucknorrisfacts.extension.getUserFriendlyMessage
 import cafe.adriel.chucknorrisfacts.extension.isConnected
 import cafe.adriel.chucknorrisfacts.model.Fact
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
@@ -13,26 +13,16 @@ import io.reactivex.rxkotlin.plusAssign
 class FactsViewModel(
     val appContext: Context,
     val factRepository: FactRepository
-) : BaseViewModel<FactsState>() {
+) : BaseViewModel<FactsViewState>() {
 
     companion object {
         const val FACT_TEXT_LENGTH_LIMIT = 80
-        const val FACT_TEXT_SIZE_BIG = 18f
-        const val FACT_TEXT_SIZE_SMALL = 14f
+        const val FACT_TEXT_SIZE_BIG = 20f
+        const val FACT_TEXT_SIZE_SMALL = 16f
     }
 
     init {
-        initState { FactsState() }
-        preloadCategories()
-    }
-
-    private fun preloadCategories(){
-        appContext.ifConnected {
-            disposables += factRepository
-                .getCategories()
-                .onErrorReturnItem(emptySet())
-                .subscribe()
-        }
+        initState { FactsViewState() }
     }
 
     fun setQuery(query: String){
@@ -43,14 +33,12 @@ class FactsViewModel(
         }
 
         updateState { it.copy(event = BaseViewEvent.Loading()) }
+
         disposables += factRepository
             .getFacts(query)
             .subscribe({ facts ->
                 updateState { it.copy(facts = facts) }
-            }, { error ->
-                error.printStackTrace()
-                updateState { it.copy(event = BaseViewEvent.Error(error.localizedMessage)) }
-            })
+            }, ::handleError)
     }
 
     fun getFactCategory(fact: Fact): String =
@@ -65,5 +53,11 @@ class FactsViewModel(
 
             ${fact.url}
         """.trimIndent()
+
+    private fun handleError(error: Throwable){
+        val message = error.getUserFriendlyMessage()
+        updateState { it.copy(event = BaseViewEvent.Error(message)) }
+        error.printStackTrace()
+    }
 
 }
