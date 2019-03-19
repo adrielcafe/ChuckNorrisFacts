@@ -8,6 +8,7 @@
     <string name="past_searches">Past Searches</string>
     <string name="looking_for">I\'m looking for…</string>
     <string name="no_facts">No facts, yet</string>
+    <string name="something_went_wrong">Something went wrong</string>
     <string name="uncategorized">Uncategorized</string>
     <string name="connect_internet">Connect to the internet</string>
 </resources>

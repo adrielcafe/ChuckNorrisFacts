@@ -10,6 +10,8 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.app.NavUtils
 import cafe.adriel.chucknorrisfacts.R
 import cafe.adriel.chucknorrisfacts.presentation.BaseActivity
+import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
+import com.etiennelenhart.eiffel.state.peek
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_search.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -62,7 +64,15 @@ class SearchActivity : BaseActivity<SearchState>() {
                 addPastSearches(pastSearches)
             }
 
-            error?.let { showMessage(it) }
+            event?.peek {
+                when(it) {
+                    is BaseViewEvent.Error -> {
+                        showMessage(it.message)
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
     }
 

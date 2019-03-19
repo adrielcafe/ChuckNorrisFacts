@@ -1,10 +1,10 @@
 package cafe.adriel.chucknorrisfacts.presentation.facts
 
 import cafe.adriel.chucknorrisfacts.model.Fact
+import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
 import com.etiennelenhart.eiffel.state.ViewState
 
 data class FactsState(
     val facts: List<Fact> = emptyList(),
-    val isLoading: Boolean = false,
-    val error: String? = null
+    val event: BaseViewEvent? = null
 ) : ViewState

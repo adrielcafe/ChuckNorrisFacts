@@ -1,5 +1,6 @@
 package cafe.adriel.chucknorrisfacts.presentation.search
 
+import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewModel
 import cafe.adriel.chucknorrisfacts.repository.fact.FactRepository
 import cafe.adriel.chucknorrisfacts.repository.search.SearchRepository
@@ -22,7 +23,7 @@ class SearchViewModel(
                 updateState { it.copy(suggestions = categories) }
             }, { error ->
                 error.printStackTrace()
-                updateState { it.copy(error = error.localizedMessage) }
+                updateState { it.copy(event = BaseViewEvent.Error(error.localizedMessage)) }
             })
     }
 
@@ -32,7 +33,7 @@ class SearchViewModel(
                 updateState { it.copy(pastSearches = pastSearches) }
             }, { error ->
                 error.printStackTrace()
-                updateState { it.copy(error = error.localizedMessage) }
+                updateState { it.copy(event = BaseViewEvent.Error(error.localizedMessage)) }
             })
     }
 

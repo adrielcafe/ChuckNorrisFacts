@@ -13,9 +13,7 @@ class FactRepository(private val factService: FactService, private val preferenc
 
     fun getFacts(query: String) =
         factService.getFacts(query)
-            .map { response ->
-                response.result
-            }
+            .map { it.result }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 

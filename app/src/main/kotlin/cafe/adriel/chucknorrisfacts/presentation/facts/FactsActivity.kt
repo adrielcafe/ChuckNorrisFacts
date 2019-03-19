@@ -7,13 +7,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.core.app.ShareCompat
 import cafe.adriel.chucknorrisfacts.R
 import cafe.adriel.chucknorrisfacts.extension.ifConnected
 import cafe.adriel.chucknorrisfacts.extension.intentFor
 import cafe.adriel.chucknorrisfacts.model.Fact
 import cafe.adriel.chucknorrisfacts.presentation.BaseActivity
+import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
 import cafe.adriel.chucknorrisfacts.presentation.search.SearchActivity
+import com.etiennelenhart.eiffel.state.peek
 import com.google.android.material.card.MaterialCardView
 import com.link184.kidadapter.setUp
 import com.link184.kidadapter.simple.SingleKidAdapter
@@ -27,8 +30,9 @@ class FactsActivity : BaseActivity<FactsState>() {
         private const val REQUEST_QUERY = 0
 
         private const val LAYOUT_STATE_CONTENT = "content"
-        private const val LAYOUT_STATE_PROGRESS = "progress"
+        private const val LAYOUT_STATE_LOADING = "loading"
         private const val LAYOUT_STATE_EMPTY = "empty"
+        private const val LAYOUT_STATE_ERROR = "error"
     }
 
     override val viewModel by viewModel<FactsViewModel>()
@@ -70,16 +74,25 @@ class FactsActivity : BaseActivity<FactsState>() {
 
     override fun onStateUpdated(state: FactsState) {
         state.apply {
-            when {
-                isLoading -> setLayoutState(LAYOUT_STATE_PROGRESS)
-                facts.isEmpty() -> setLayoutState(LAYOUT_STATE_EMPTY)
-                else -> {
-                    setAdapterItems(facts)
-                    setLayoutState(LAYOUT_STATE_CONTENT)
-                }
+            if(facts.isEmpty()){
+                setLayoutState(LAYOUT_STATE_EMPTY)
+            } else {
+                setAdapterItems(facts)
+                setLayoutState(LAYOUT_STATE_CONTENT)
             }
 
-            error?.let { showMessage(it) }
+            event?.peek {
+                when(it) {
+                    is BaseViewEvent.Loading -> {
+                        setLayoutState(LAYOUT_STATE_LOADING)
+                        true
+                    }
+                    is BaseViewEvent.Error -> {
+                        setLayoutState(LAYOUT_STATE_ERROR, it.message)
+                        true
+                    }
+                }
+            }
         }
     }
 
@@ -90,9 +103,10 @@ class FactsActivity : BaseActivity<FactsState>() {
 
     private fun initLayoutState(){
         val layoutInflater = LayoutInflater.from(this)
-        vStateLayout.setStateView(LAYOUT_STATE_PROGRESS, layoutInflater.inflate(R.layout.state_loading, null))
+        vStateLayout.setStateView(LAYOUT_STATE_LOADING, layoutInflater.inflate(R.layout.state_loading, null))
         vStateLayout.setStateView(LAYOUT_STATE_EMPTY, layoutInflater.inflate(R.layout.state_empty, null))
-        setLayoutState(LAYOUT_STATE_EMPTY)
+        vStateLayout.setStateView(LAYOUT_STATE_ERROR, layoutInflater.inflate(R.layout.state_error, null))
+        setLayoutState(LAYOUT_STATE_ERROR)
     }
 
     private fun initAdapter(){
@@ -113,8 +127,13 @@ class FactsActivity : BaseActivity<FactsState>() {
         }
     }
 
-    private fun setLayoutState(state: String){
+    private fun setLayoutState(state: String, message: String? = null){
         vStateLayout.state = state
+        message?.let {
+            vStateLayout.getStateView(state)
+                ?.findViewById<TextView>(R.id.vStateMessage)
+                ?.text = it
+        }
     }
 
     private fun setAdapterItems(facts: List<Fact>){

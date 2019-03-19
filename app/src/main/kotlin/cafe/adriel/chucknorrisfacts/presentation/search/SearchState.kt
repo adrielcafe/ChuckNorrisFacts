@@ -1,9 +1,10 @@
 package cafe.adriel.chucknorrisfacts.presentation.search
 
+import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
 import com.etiennelenhart.eiffel.state.ViewState
 
 data class SearchState(
     val suggestions: Set<String> = emptySet(),
     val pastSearches: List<String> = emptyList(),
-    val error: String? = null
+    val event: BaseViewEvent? = null
 ) : ViewState

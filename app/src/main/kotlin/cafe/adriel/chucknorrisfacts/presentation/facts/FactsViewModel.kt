@@ -5,6 +5,7 @@ import cafe.adriel.chucknorrisfacts.R
 import cafe.adriel.chucknorrisfacts.extension.ifConnected
 import cafe.adriel.chucknorrisfacts.extension.isConnected
 import cafe.adriel.chucknorrisfacts.model.Fact
+import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewModel
 import cafe.adriel.chucknorrisfacts.repository.fact.FactRepository
 import io.reactivex.rxkotlin.plusAssign
@@ -36,18 +37,19 @@ class FactsViewModel(
 
     fun setQuery(query: String){
         if(!appContext.isConnected()){
-            updateState { it.copy(error = appContext.getString(R.string.connect_internet)) }
+            val message = appContext.getString(R.string.connect_internet)
+            updateState { it.copy(event = BaseViewEvent.Error(message)) }
             return
         }
 
-        updateState { it.copy(isLoading = true) }
+        updateState { it.copy(event = BaseViewEvent.Loading()) }
         disposables += factRepository
             .getFacts(query)
             .subscribe({ facts ->
-                updateState { it.copy(facts = facts, isLoading = false) }
+                updateState { it.copy(facts = facts) }
             }, { error ->
                 error.printStackTrace()
-                updateState { it.copy(error = error.localizedMessage, isLoading = false) }
+                updateState { it.copy(event = BaseViewEvent.Error(error.localizedMessage)) }
             })
     }
 
