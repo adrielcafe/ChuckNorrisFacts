@@ -1,15 +1,16 @@
 package cafe.adriel.chucknorrisfacts.presentation.facts
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import cafe.adriel.chucknorrisfacts.R
 import cafe.adriel.chucknorrisfacts.model.Fact
+import cafe.adriel.chucknorrisfacts.presentation.BaseViewModel
 import cafe.adriel.chucknorrisfacts.repository.fact.FactRepository
-import com.etiennelenhart.eiffel.viewmodel.StateViewModel
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 
-class FactsViewModel(val appContext: Context, val factRepository: FactRepository) : StateViewModel<FactsState>() {
+class FactsViewModel(
+    val appContext: Context,
+    val factRepository: FactRepository
+) : BaseViewModel<FactsState>() {
 
     companion object {
         const val FACT_TEXT_LENGTH_LIMIT = 80
@@ -17,16 +18,9 @@ class FactsViewModel(val appContext: Context, val factRepository: FactRepository
         const val FACT_TEXT_SIZE_SMALL = 14f
     }
 
-    override val state = MutableLiveData<FactsState>()
-    private val disposables = CompositeDisposable()
-
     init {
         initState { FactsState() }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposables.dispose()
+        preloadCategories()
     }
 
     fun setQuery(query: String){
@@ -37,7 +31,12 @@ class FactsViewModel(val appContext: Context, val factRepository: FactRepository
                 updateState { it.copy(facts = facts, isLoading = false) }
             }, { error ->
                 error.printStackTrace()
+                updateState { it.copy(facts = emptyList(), isLoading = false) }
             })
+    }
+
+    private fun preloadCategories(){
+        disposables += factRepository.getCategories().subscribe()
     }
 
     fun getFactCategory(fact: Fact): String =

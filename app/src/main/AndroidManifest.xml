@@ -4,6 +4,7 @@
     package="cafe.adriel.chucknorrisfacts">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".App"
@@ -14,12 +15,18 @@
         android:allowBackup="true"
         android:supportsRtl="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.facts.FactsActivity">
+        <activity
+            android:name=".presentation.facts.FactsActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.search.SearchActivity"
+            android:parentActivityName=".presentation.facts.FactsActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"/>
     </application>
 
 </manifest>
