@@ -2,6 +2,8 @@ package cafe.adriel.chucknorrisfacts.presentation.facts
 
 import android.content.Context
 import cafe.adriel.chucknorrisfacts.R
+import cafe.adriel.chucknorrisfacts.extension.ifConnected
+import cafe.adriel.chucknorrisfacts.extension.isConnected
 import cafe.adriel.chucknorrisfacts.model.Fact
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewModel
 import cafe.adriel.chucknorrisfacts.repository.fact.FactRepository
@@ -23,7 +25,21 @@ class FactsViewModel(
         preloadCategories()
     }
 
+    private fun preloadCategories(){
+        appContext.ifConnected {
+            disposables += factRepository
+                .getCategories()
+                .onErrorReturnItem(emptySet())
+                .subscribe()
+        }
+    }
+
     fun setQuery(query: String){
+        if(!appContext.isConnected()){
+            updateState { it.copy(error = appContext.getString(R.string.connect_internet)) }
+            return
+        }
+
         updateState { it.copy(isLoading = true) }
         disposables += factRepository
             .getFacts(query)
@@ -31,12 +47,8 @@ class FactsViewModel(
                 updateState { it.copy(facts = facts, isLoading = false) }
             }, { error ->
                 error.printStackTrace()
-                updateState { it.copy(facts = emptyList(), isLoading = false) }
+                updateState { it.copy(error = error.localizedMessage, isLoading = false) }
             })
-    }
-
-    private fun preloadCategories(){
-        disposables += factRepository.getCategories().subscribe()
     }
 
     fun getFactCategory(fact: Fact): String =

@@ -4,5 +4,6 @@ import com.etiennelenhart.eiffel.state.ViewState
 
 data class SearchState(
     val suggestions: Set<String> = emptySet(),
-    val pastSearches: List<String> = emptyList()
+    val pastSearches: List<String> = emptyList(),
+    val error: String? = null
 ) : ViewState

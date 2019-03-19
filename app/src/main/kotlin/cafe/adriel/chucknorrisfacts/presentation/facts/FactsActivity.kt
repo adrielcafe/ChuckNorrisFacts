@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.app.ShareCompat
 import cafe.adriel.chucknorrisfacts.R
+import cafe.adriel.chucknorrisfacts.extension.ifConnected
 import cafe.adriel.chucknorrisfacts.extension.intentFor
 import cafe.adriel.chucknorrisfacts.model.Fact
 import cafe.adriel.chucknorrisfacts.presentation.BaseActivity
@@ -61,7 +62,7 @@ class FactsActivity : BaseActivity<FactsState>() {
 
     override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
         R.id.action_search -> {
-            startActivityForResult(intentFor<SearchActivity>(), REQUEST_QUERY)
+            openSearch()
             true
         }
         else -> false
@@ -77,6 +78,8 @@ class FactsActivity : BaseActivity<FactsState>() {
                     setLayoutState(LAYOUT_STATE_CONTENT)
                 }
             }
+
+            error?.let { showMessage(it) }
         }
     }
 
@@ -126,6 +129,12 @@ class FactsActivity : BaseActivity<FactsState>() {
             .setText(text)
             .setType(ClipDescription.MIMETYPE_TEXT_PLAIN)
             .startChooser()
+    }
+
+    private fun openSearch(){
+        ifConnected(true) {
+            startActivityForResult(intentFor<SearchActivity>(), REQUEST_QUERY)
+        }
     }
 
 }

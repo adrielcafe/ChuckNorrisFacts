@@ -41,6 +41,7 @@ class FactRepository(private val factService: FactService, private val preferenc
     private fun getRemoteCategories() =
         factService.getCategories()
             .doOnSuccess {
+                // Cache the result
                 preferences.write(PREF_FACT_CATEGORIES, it).blockingAwait()
             }
 

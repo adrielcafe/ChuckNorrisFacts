@@ -5,5 +5,6 @@ import com.etiennelenhart.eiffel.state.ViewState
 
 data class FactsState(
     val facts: List<Fact> = emptyList(),
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val error: String? = null
 ) : ViewState

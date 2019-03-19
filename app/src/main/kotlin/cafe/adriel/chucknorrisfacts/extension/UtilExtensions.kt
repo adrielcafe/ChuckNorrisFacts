@@ -2,7 +2,7 @@ package cafe.adriel.chucknorrisfacts.extension
 
 import cafe.adriel.chucknorrisfacts.BuildConfig
 
-inline fun debug(body: () -> Unit) {
+inline fun ifDebug(body: () -> Unit) {
     if (BuildConfig.DEBUG) body()
 }
 

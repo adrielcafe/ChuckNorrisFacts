@@ -21,7 +21,7 @@ class SearchRepository(private val preferences: RxPaperBook) {
             .map { terms ->
                 terms.toMutableList()
                     .also {
-                        // Remove old query, if it exists, to avoid duplicates
+                        // Remove old query, if it exists, to prevent duplicates
                         if(it.contains(query)){
                             it.removeAll { it == query }
                         }

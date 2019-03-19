@@ -4,7 +4,6 @@ import cafe.adriel.chucknorrisfacts.presentation.BaseViewModel
 import cafe.adriel.chucknorrisfacts.repository.fact.FactRepository
 import cafe.adriel.chucknorrisfacts.repository.search.SearchRepository
 import io.reactivex.rxkotlin.plusAssign
-import io.reactivex.rxkotlin.zipWith
 
 class SearchViewModel(
     val factRepository: FactRepository,
@@ -12,14 +11,28 @@ class SearchViewModel(
 ) : BaseViewModel<SearchState>() {
 
     init {
+        initState { SearchState() }
+        loadSuggestions()
+        loadPastSearches()
+    }
+
+    private fun loadSuggestions(){
         disposables += factRepository.getCategories()
-            .zipWith(searchRepository.getPastSearches())
-            .subscribe({ result ->
-                val state = SearchState(result.first, result.second)
-                initState { state }
+            .subscribe({ categories ->
+                updateState { it.copy(suggestions = categories) }
             }, { error ->
                 error.printStackTrace()
-                initState { SearchState() }
+                updateState { it.copy(error = error.localizedMessage) }
+            })
+    }
+
+    private fun loadPastSearches(){
+        disposables += searchRepository.getPastSearches()
+            .subscribe({ pastSearches ->
+                updateState { it.copy(pastSearches = pastSearches) }
+            }, { error ->
+                error.printStackTrace()
+                updateState { it.copy(error = error.localizedMessage) }
             })
     }
 

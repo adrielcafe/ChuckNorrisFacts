@@ -53,7 +53,6 @@ class SearchActivity : BaseActivity<SearchState>() {
                 addSuggestions(suggestions)
             }
 
-
             if(pastSearches.isEmpty()){
                 vPastSearchesLabel.visibility = View.GONE
                 vPastSearches.visibility = View.GONE
@@ -62,6 +61,8 @@ class SearchActivity : BaseActivity<SearchState>() {
                 vPastSearches.visibility = View.VISIBLE
                 addPastSearches(pastSearches)
             }
+
+            error?.let { showMessage(it) }
         }
     }
 
