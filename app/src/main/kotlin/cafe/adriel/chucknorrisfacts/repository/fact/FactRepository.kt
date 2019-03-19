@@ -20,17 +20,17 @@ class FactRepository(private val factService: FactService, private val preferenc
             .observeOn(AndroidSchedulers.mainThread())
 
     fun getCategories() =
-        preferences.contains(PREF_FACT_CATEGORIES)
-            .flatMap { hasCategories ->
-                if(hasCategories){
-                    getLocalCategories()
+        getLocalCategories()
+            .map { categories ->
+                if(categories.isEmpty()){
+                    getRemoteCategories().blockingGet()
                 } else {
-                    getRemoteCategories()
+                    categories
                 }
             }
             .map { categories ->
-                // Return a Set with the first 8 categories
-                categories.take(MAX_CATEGORIES).toSet()
+                // Select 8 random categories
+                categories.shuffled().take(MAX_CATEGORIES).toSet()
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

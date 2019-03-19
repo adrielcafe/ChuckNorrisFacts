@@ -39,8 +39,6 @@ class FactsActivity : BaseActivity<FactsState>() {
         setContentView(R.layout.activity_facts)
         setSupportActionBar(vToolbar)
 
-        vFacts.itemAnimator = null
-
         initLayoutState()
         initAdapter()
     }
@@ -49,9 +47,7 @@ class FactsActivity : BaseActivity<FactsState>() {
         if(requestCode == REQUEST_QUERY){
             if(resultCode == Activity.RESULT_OK) {
                 val query = data?.getStringExtra(SearchActivity.RESULT_QUERY)
-                query?.let {
-                    viewModel.setQuery(it)
-                }
+                query?.let { onQueryChanged(it) }
             }
             return
         }
@@ -84,6 +80,11 @@ class FactsActivity : BaseActivity<FactsState>() {
         }
     }
 
+    private fun onQueryChanged(query: String) {
+        vToolbar.subtitle = "\"$query\""
+        viewModel.setQuery(query)
+    }
+
     private fun initLayoutState(){
         val layoutInflater = LayoutInflater.from(this)
         vStateLayout.setStateView(LAYOUT_STATE_PROGRESS, layoutInflater.inflate(R.layout.state_loading, null))
@@ -92,6 +93,7 @@ class FactsActivity : BaseActivity<FactsState>() {
     }
 
     private fun initAdapter(){
+        vFacts.itemAnimator = null
         adapter = vFacts.setUp<Fact> {
             withLayoutResId(R.layout.item_fact)
             bind { fact ->

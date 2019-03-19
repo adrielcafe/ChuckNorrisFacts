@@ -2,6 +2,7 @@ package cafe.adriel.chucknorrisfacts.presentation.search
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -23,24 +24,14 @@ class SearchActivity : BaseActivity<SearchState>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        setContentView(cafe.adriel.chucknorrisfacts.R.layout.activity_search)
         setSupportActionBar(vToolbar)
         supportActionBar?.apply {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
         }
 
-        vQuery.setOnEditorActionListener { _, actionId, event ->
-            if(actionId == EditorInfo.IME_ACTION_SEARCH){
-                val query = vQuery.text
-                if(!query.isNullOrBlank()){
-                    returnQuery(query.toString())
-                }
-                true
-            } else {
-                false
-            }
-        }
+        initQueryInput()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
@@ -62,6 +53,7 @@ class SearchActivity : BaseActivity<SearchState>() {
                 addSuggestions(suggestions)
             }
 
+
             if(pastSearches.isEmpty()){
                 vPastSearchesLabel.visibility = View.GONE
                 vPastSearches.visibility = View.GONE
@@ -73,34 +65,55 @@ class SearchActivity : BaseActivity<SearchState>() {
         }
     }
 
-    private fun returnQuery(query: String){
-        viewModel.saveQuery(query)
+    private fun initQueryInput(){
+        vQuery.setOnEditorActionListener { _, actionId, _ ->
+            if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                vQuery.text?.let {
+                    returnQuery(it.toString())
+                }
+                true
+            } else {
+                false
+            }
+        }
+    }
 
-        val intent = Intent().putExtra(RESULT_QUERY, query)
+    private fun returnQuery(query: String){
+        if(query.isBlank()){
+            return
+        }
+
+        val formattedQuery = viewModel.formatQuery(query)
+        val intent = Intent().putExtra(RESULT_QUERY, formattedQuery)
+
+        viewModel.saveQuery(formattedQuery)
+
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
     private fun addSuggestions(suggestions: Set<String>){
         vSuggestions.removeAllViews()
-        suggestions.forEach { label ->
-            val chipView = createChipView(label)
+        suggestions.forEach { query ->
+            val chipView = createChipView(query)
             vSuggestions.addView(chipView)
         }
     }
 
     private fun addPastSearches(pastSearches: List<String>){
         vPastSearches.removeAllViews()
-        pastSearches.forEach { label ->
-            val chipView = createChipView(label)
+        pastSearches.forEach { query ->
+            val chipView = createChipView(query)
             vPastSearches.addView(chipView)
         }
     }
 
-    private fun createChipView(label: String) =
+    private fun createChipView(query: String) =
         Chip(this).apply {
-            text = label.toLowerCase()
-            setOnClickListener { returnQuery(label) }
+            text = viewModel.formatQuery(query)
+            setTextColor(Color.WHITE)
+            setChipBackgroundColorResource(R.color.colorAccent)
+            setOnClickListener { returnQuery(query) }
         }
 
 }

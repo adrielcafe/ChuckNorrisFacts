@@ -5,8 +5,9 @@
     <string name="search">Search</string>
     <string name="share">Share</string>
     <string name="suggestions">Suggestions</string>
-    <string name="past_searches">Past searches</string>
+    <string name="past_searches">Past Searches</string>
     <string name="looking_for">I\'m looking for…</string>
     <string name="no_facts">No facts, yet</string>
     <string name="uncategorized">Uncategorized</string>
+    <string name="connect_internet">Connect to the internet</string>
 </resources>

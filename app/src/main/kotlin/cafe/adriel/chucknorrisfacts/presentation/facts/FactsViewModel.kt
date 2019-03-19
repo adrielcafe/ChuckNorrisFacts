@@ -20,6 +20,7 @@ class FactsViewModel(
 
     init {
         initState { FactsState() }
+        preloadCategories()
     }
 
     fun setQuery(query: String){
@@ -32,6 +33,10 @@ class FactsViewModel(
                 error.printStackTrace()
                 updateState { it.copy(facts = emptyList(), isLoading = false) }
             })
+    }
+
+    private fun preloadCategories(){
+        disposables += factRepository.getCategories().subscribe()
     }
 
     fun getFactCategory(fact: Fact): String =

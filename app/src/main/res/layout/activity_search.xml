@@ -17,31 +17,29 @@
             android:id="@+id/vToolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            app:contentInsetStartWithNavigation="0dp"
-            app:contentInsetEnd="10dp">
+            app:contentInsetStartWithNavigation="0dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/vQueryLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:boxBackgroundColor="@android:color/white"
                 app:hintEnabled="false"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:boxBackgroundMode="none">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/vQuery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:drawableEnd="@drawable/ic_search"
-                    android:drawablePadding="10dp"
                     android:maxLines="1"
                     android:hint="@string/looking_for"
                     android:inputType="textShortMessage"
-                    android:imeOptions="actionSearch"/>
+                    android:imeOptions="actionSearch"
+                    android:textSize="18sp">
+
+                    <requestFocus/>
+
+                </com.google.android.material.textfield.TextInputEditText>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,55 +47,65 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/vSuggestionsLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/suggestions"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/vSuggestions"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vSuggestionsLabel"
-            app:chipSpacingVertical="10dp"
-            app:singleSelection="true"/>
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
 
-        <TextView
-            android:id="@+id/vPastSearchesLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/past_searches"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vSuggestions" />
+            <TextView
+                android:id="@+id/vSuggestionsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/suggestions"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/vPastSearches"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vPastSearchesLabel"
-            app:chipSpacingVertical="10dp"
-            app:singleSelection="true"/>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/vSuggestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vSuggestionsLabel"
+                app:chipSpacingVertical="10dp"
+                app:singleSelection="true"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/vPastSearchesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/past_searches"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vSuggestions"
+                tools:visibility="visible"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/vPastSearches"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vPastSearchesLabel"
+                app:chipSpacingVertical="10dp"
+                app:singleSelection="true"
+                tools:visibility="visible"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

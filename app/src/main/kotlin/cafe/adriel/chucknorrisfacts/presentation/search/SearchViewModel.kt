@@ -12,11 +12,8 @@ class SearchViewModel(
 ) : BaseViewModel<SearchState>() {
 
     init {
-        val categoriesSingle = factRepository.getCategories().map { it.shuffled().toSet() }
-        val pastSearchesSingle = searchRepository.getPastSearches()
-
-        disposables += categoriesSingle
-            .zipWith(pastSearchesSingle)
+        disposables += factRepository.getCategories()
+            .zipWith(searchRepository.getPastSearches())
             .subscribe({ result ->
                 val state = SearchState(result.first, result.second)
                 initState { state }
@@ -29,5 +26,7 @@ class SearchViewModel(
     fun saveQuery(query: String) {
         disposables += searchRepository.addSearchQuery(query)
     }
+
+    fun formatQuery(query: String) = query.toLowerCase().trim()
 
 }

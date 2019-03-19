@@ -1,11 +1,10 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/WindowAnimation</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/gray200</item>
-        <item name="android:windowAnimationStyle">@style/WindowAnimation</item>
     </style>
 
     <style name="WindowAnimation" parent="android:style/Animation.Activity">
@@ -17,6 +16,10 @@
 
     <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Title">
         <item name="android:fontFamily">sans-serif-smallcaps</item>
+    </style>
+
+    <style name="ToolbarSubtitle" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textStyle">italic</item>
     </style>
 
 </resources>

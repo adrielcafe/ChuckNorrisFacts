@@ -4,6 +4,7 @@
     package="cafe.adriel.chucknorrisfacts">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".App"
@@ -24,7 +25,8 @@
         </activity>
         <activity
             android:name=".presentation.search.SearchActivity"
-            android:parentActivityName=".presentation.facts.FactsActivity"/>
+            android:parentActivityName=".presentation.facts.FactsActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"/>
     </application>
 
 </manifest>
