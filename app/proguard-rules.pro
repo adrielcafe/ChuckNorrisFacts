@@ -39,6 +39,17 @@
 -keep class kotlin.reflect.jvm.internal.impl.load.java.ErasedOverridabilityCondition
 -keep class kotlin.reflect.jvm.internal.impl.load.java.JavaIncompatibilityRulesOverridabilityCondition
 
+# RxJava
+-keep class io.reactivex.plugins.RxJavaPlugins { *; }
+-keep class io.reactivex.disposables.CompositeDisposable { *; }
+
+# Paper
+-keep class io.paperdb.** { *; }
+-keep class com.esotericsoftware.** { *; }
+-dontwarn com.esotericsoftware.**
+-keep class de.javakaffee.kryoserializers.** { *; }
+-dontwarn de.javakaffee.kryoserializers.**
+
 # Retrofit
 -keepattributes Signature, InnerClasses, EnclosingMethod
 -keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
