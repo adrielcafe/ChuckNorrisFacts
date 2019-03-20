@@ -25,8 +25,8 @@ class FactsViewModel(
         initState { FactsViewState() }
     }
 
-    fun setQuery(query: String){
-        if(!appContext.isConnected()){
+    fun setQuery(query: String) {
+        if (!appContext.isConnected()) {
             val message = appContext.getString(R.string.connect_internet)
             updateState { it.copy(event = BaseViewEvent.Error(message)) }
             return
@@ -45,7 +45,7 @@ class FactsViewModel(
         fact.categories?.firstOrNull() ?: appContext.getString(R.string.uncategorized)
 
     fun getFactTextSize(fact: Fact): Float =
-        if(fact.text.length <= FACT_TEXT_LENGTH_LIMIT) FACT_TEXT_SIZE_BIG else FACT_TEXT_SIZE_SMALL
+        if (fact.text.length <= FACT_TEXT_LENGTH_LIMIT) FACT_TEXT_SIZE_BIG else FACT_TEXT_SIZE_SMALL
 
     fun getFactShareText(fact: Fact): String =
         """Chuck Norris fact:
@@ -54,10 +54,9 @@ class FactsViewModel(
             ${fact.url}
         """.trimIndent()
 
-    private fun handleError(error: Throwable){
+    private fun handleError(error: Throwable) {
         val message = error.getUserFriendlyMessage()
         updateState { it.copy(event = BaseViewEvent.Error(message)) }
         error.printStackTrace()
     }
-
 }

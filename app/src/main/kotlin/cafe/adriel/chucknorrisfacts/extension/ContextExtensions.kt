@@ -13,13 +13,13 @@ inline fun <reified T : Activity> Context.intentFor() = Intent(this, javaClass<T
 fun Context.isConnected() = getSystemService<ConnectivityManager>()?.activeNetworkInfo?.isConnected ?: false
 
 fun Context.ifConnected(body: () -> Unit) {
-    if(isConnected()) body()
+    if (isConnected()) body()
 }
 
 fun Activity.ifConnected(showErrorMessage: Boolean = false, body: () -> Unit) {
-    if(isConnected()){
+    if (isConnected()) {
         body()
-    } else if(showErrorMessage){
+    } else if (showErrorMessage) {
         Snackbar.make(findViewById(android.R.id.content), R.string.connect_internet, Snackbar.LENGTH_SHORT).show()
     }
 }

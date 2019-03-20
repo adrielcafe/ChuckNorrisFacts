@@ -22,7 +22,7 @@ class SearchRepository(private val preferences: RxPaperBook) {
                 terms.toMutableList()
                     .also {
                         // Remove old query, if it exists, to prevent duplicates
-                        if(it.contains(query)){
+                        if (it.contains(query)) {
                             it.removeAll { it == query }
                         }
                         // Add the new term to the top

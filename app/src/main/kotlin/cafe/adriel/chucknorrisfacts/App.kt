@@ -41,5 +41,4 @@ class App : Application() {
 
         RxPaperBook.init(this)
     }
-
 }

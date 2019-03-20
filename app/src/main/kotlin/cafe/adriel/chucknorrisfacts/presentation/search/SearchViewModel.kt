@@ -24,24 +24,23 @@ class SearchViewModel(
 
     fun formatQuery(query: String) = query.toLowerCase().trim()
 
-    private fun loadSuggestions(){
+    private fun loadSuggestions() {
         disposables += factRepository.getCategories()
             .subscribe({ result ->
                 updateState { it.copy(suggestions = result) }
             }, ::handleError)
     }
 
-    private fun loadPastSearches(){
+    private fun loadPastSearches() {
         disposables += searchRepository.getPastSearches()
             .subscribe({ result ->
                 updateState { it.copy(pastSearches = result) }
             }, ::handleError)
     }
 
-    private fun handleError(error: Throwable){
+    private fun handleError(error: Throwable) {
         val message = error.getUserFriendlyMessage()
         updateState { it.copy(event = BaseViewEvent.Error(message)) }
         error.printStackTrace()
     }
-
 }

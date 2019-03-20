@@ -8,9 +8,8 @@ import retrofit2.http.Query
 interface FactService {
 
     @GET("search")
-    fun getFacts(@Query("query") query: String) : Single<FactResponse>
+    fun getFacts(@Query("query") query: String): Single<FactResponse>
 
     @GET("categories")
-    fun getCategories() : Single<Set<String>>
-
+    fun getCategories(): Single<Set<String>>
 }

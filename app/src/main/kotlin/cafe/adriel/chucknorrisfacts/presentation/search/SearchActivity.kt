@@ -46,7 +46,7 @@ class SearchActivity : BaseActivity<SearchViewState>() {
 
     override fun onStateUpdated(state: SearchViewState) {
         state.apply {
-            if(suggestions.isEmpty()){
+            if (suggestions.isEmpty()) {
                 vSuggestionsLabel.visibility = View.GONE
                 vSuggestions.visibility = View.GONE
             } else {
@@ -55,7 +55,7 @@ class SearchActivity : BaseActivity<SearchViewState>() {
                 addSuggestions(suggestions)
             }
 
-            if(pastSearches.isEmpty()){
+            if (pastSearches.isEmpty()) {
                 vPastSearchesLabel.visibility = View.GONE
                 vPastSearches.visibility = View.GONE
             } else {
@@ -65,7 +65,7 @@ class SearchActivity : BaseActivity<SearchViewState>() {
             }
 
             event?.peek {
-                when(it) {
+                when (it) {
                     is BaseViewEvent.Error -> {
                         showMessage(it.message)
                         true
@@ -76,9 +76,9 @@ class SearchActivity : BaseActivity<SearchViewState>() {
         }
     }
 
-    private fun initQueryInput(){
+    private fun initQueryInput() {
         vQuery.setOnEditorActionListener { _, actionId, _ ->
-            if(actionId == EditorInfo.IME_ACTION_SEARCH){
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 vQuery.text?.let {
                     returnQuery(it.toString())
                 }
@@ -89,8 +89,8 @@ class SearchActivity : BaseActivity<SearchViewState>() {
         }
     }
 
-    private fun returnQuery(query: String){
-        if(query.isBlank()){
+    private fun returnQuery(query: String) {
+        if (query.isBlank()) {
             return
         }
 
@@ -103,7 +103,7 @@ class SearchActivity : BaseActivity<SearchViewState>() {
         finish()
     }
 
-    private fun addSuggestions(suggestions: Set<String>){
+    private fun addSuggestions(suggestions: Set<String>) {
         vSuggestions.removeAllViews()
         suggestions.forEach { query ->
             val chipView = createChipView(query)
@@ -111,7 +111,7 @@ class SearchActivity : BaseActivity<SearchViewState>() {
         }
     }
 
-    private fun addPastSearches(pastSearches: List<String>){
+    private fun addPastSearches(pastSearches: List<String>) {
         vPastSearches.removeAllViews()
         pastSearches.forEach { query ->
             val chipView = createChipView(query)
@@ -126,5 +126,4 @@ class SearchActivity : BaseActivity<SearchViewState>() {
             setChipBackgroundColorResource(R.color.colorAccent)
             setOnClickListener { returnQuery(query) }
         }
-
 }
