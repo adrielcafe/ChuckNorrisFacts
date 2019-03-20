@@ -1,26 +1,21 @@
 package cafe.adriel.chucknorrisfacts.presentation.search
 
+import cafe.adriel.chucknorrisfacts.extension.getUserFriendlyMessage
+import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewModel
 import cafe.adriel.chucknorrisfacts.repository.fact.FactRepository
 import cafe.adriel.chucknorrisfacts.repository.search.SearchRepository
 import io.reactivex.rxkotlin.plusAssign
-import io.reactivex.rxkotlin.zipWith
 
 class SearchViewModel(
     val factRepository: FactRepository,
     val searchRepository: SearchRepository
-) : BaseViewModel<SearchState>() {
+) : BaseViewModel<SearchViewState>() {
 
     init {
-        disposables += factRepository.getCategories()
-            .zipWith(searchRepository.getPastSearches())
-            .subscribe({ result ->
-                val state = SearchState(result.first, result.second)
-                initState { state }
-            }, { error ->
-                error.printStackTrace()
-                initState { SearchState() }
-            })
+        initState { SearchViewState() }
+        loadSuggestions()
+        loadPastSearches()
     }
 
     fun saveQuery(query: String) {
@@ -28,5 +23,25 @@ class SearchViewModel(
     }
 
     fun formatQuery(query: String) = query.toLowerCase().trim()
+
+    private fun loadSuggestions(){
+        disposables += factRepository.getCategories()
+            .subscribe({ result ->
+                updateState { it.copy(suggestions = result) }
+            }, ::handleError)
+    }
+
+    private fun loadPastSearches(){
+        disposables += searchRepository.getPastSearches()
+            .subscribe({ result ->
+                updateState { it.copy(pastSearches = result) }
+            }, ::handleError)
+    }
+
+    private fun handleError(error: Throwable){
+        val message = error.getUserFriendlyMessage()
+        updateState { it.copy(event = BaseViewEvent.Error(message)) }
+        error.printStackTrace()
+    }
 
 }

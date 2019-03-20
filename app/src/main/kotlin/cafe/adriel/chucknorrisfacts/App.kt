@@ -3,7 +3,7 @@ package cafe.adriel.chucknorrisfacts
 import android.app.Application
 import android.os.StrictMode
 import cafe.adriel.chucknorrisfacts.di.AppComponent
-import cafe.adriel.chucknorrisfacts.extension.debug
+import cafe.adriel.chucknorrisfacts.extension.ifDebug
 import com.github.ajalt.timberkt.Timber
 import com.pacoworks.rxpaper2.RxPaperBook
 import com.squareup.leakcanary.LeakCanary
@@ -19,7 +19,7 @@ class App : Application() {
         if (LeakCanary.isInAnalyzerProcess(this)) return
         LeakCanary.install(this)
 
-        debug {
+        ifDebug {
             Timber.plant(Timber.DebugTree())
 
             StrictMode.setThreadPolicy(

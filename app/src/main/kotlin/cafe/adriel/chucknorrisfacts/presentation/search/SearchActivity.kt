@@ -10,11 +10,13 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.app.NavUtils
 import cafe.adriel.chucknorrisfacts.R
 import cafe.adriel.chucknorrisfacts.presentation.BaseActivity
+import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
+import com.etiennelenhart.eiffel.state.peek
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_search.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SearchActivity : BaseActivity<SearchState>() {
+class SearchActivity : BaseActivity<SearchViewState>() {
 
     companion object {
         const val RESULT_QUERY = "query"
@@ -42,7 +44,7 @@ class SearchActivity : BaseActivity<SearchState>() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    override fun onStateUpdated(state: SearchState) {
+    override fun onStateUpdated(state: SearchViewState) {
         state.apply {
             if(suggestions.isEmpty()){
                 vSuggestionsLabel.visibility = View.GONE
@@ -53,7 +55,6 @@ class SearchActivity : BaseActivity<SearchState>() {
                 addSuggestions(suggestions)
             }
 
-
             if(pastSearches.isEmpty()){
                 vPastSearchesLabel.visibility = View.GONE
                 vPastSearches.visibility = View.GONE
@@ -61,6 +62,16 @@ class SearchActivity : BaseActivity<SearchState>() {
                 vPastSearchesLabel.visibility = View.VISIBLE
                 vPastSearches.visibility = View.VISIBLE
                 addPastSearches(pastSearches)
+            }
+
+            event?.peek {
+                when(it) {
+                    is BaseViewEvent.Error -> {
+                        showMessage(it.message)
+                        true
+                    }
+                    else -> false
+                }
             }
         }
     }

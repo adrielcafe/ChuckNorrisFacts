@@ -17,6 +17,6 @@
         android:layout_marginTop="10dp"
         android:text="@string/no_facts"
         android:textColor="?android:textColorSecondary"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
 </LinearLayout>
