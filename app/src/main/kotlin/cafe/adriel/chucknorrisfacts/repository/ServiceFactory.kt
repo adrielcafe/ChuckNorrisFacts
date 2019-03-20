@@ -10,12 +10,24 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 
 object ServiceFactory {
 
+    val mockInterceptors by lazy {
+        mutableSetOf<Interceptor>()
+    }
     val httpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
+            .also { builder ->
+                // Add mock interceptors, only used by tests
+                mockInterceptors.forEach {
+                    builder.addInterceptor(it)
+                }
+            }
             .addInterceptor(loggingInterceptor)
+            // Chuck Norris Facts API can be very slow sometimes
+            .readTimeout(30, TimeUnit.SECONDS)
             .build()
     }
     val jsonConverter: Moshi by lazy {

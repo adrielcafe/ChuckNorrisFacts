@@ -20,10 +20,6 @@ android {
         buildConfigField 'String', 'CHUCK_NORRIS_API_BASE_URL', '\"https://api.chucknorris.io/jokes/\"'
     }
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
         debug {
             useProguard false
             buildConfigField 'Boolean', 'RELEASE', 'false'
@@ -36,11 +32,18 @@ android {
         }
     }
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin/'
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += ['src/test/kotlin', 'src/sharedTest/kotlin']
+        test.resources.srcDirs += 'src/sharedTest/resources'
+        androidTest.java.srcDirs += ['src/androidTest/kotlin', 'src/sharedTest/kotlin']
+        androidTest.resources.srcDirs += 'src/sharedTest/resources'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
     }
     dexOptions {
         preDexLibraries true
@@ -101,10 +104,19 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$leakcanary_version"
 
-    // Test
+    // Unit Test
     testImplementation "junit:junit:4.12"
-    androidTestImplementation "androidx.test:runner:1.1.1"
+
+    // Espresso Test
     androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
+    androidTestImplementation "androidx.test:core:1.1.0"
+    androidTestImplementation "androidx.test:core-ktx:1.1.0"
+    androidTestImplementation "androidx.test:runner:1.1.1"
+    androidTestImplementation "androidx.test.ext:junit:1.1.0"
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.0"
+    androidTestImplementation "com.github.adrielcafe:Barista:assertListHasItems-SNAPSHOT" // Fork https://github.com/adrielcafe/Barista/tree/assertListHasItems
+    androidTestImplementation "com.squareup.rx.idler:rx2-idler:0.9.1"
+    androidTestImplementation "com.github.gmazzo:okhttp-mock:1.3.1"
 }
 
 apply from: '../spotless.gradle'
