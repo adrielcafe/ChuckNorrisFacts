@@ -49,8 +49,8 @@ class FactsActivity : BaseActivity<FactsViewState>() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == REQUEST_QUERY){
-            if(resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_QUERY) {
+            if (resultCode == Activity.RESULT_OK) {
                 val query = data?.getStringExtra(SearchActivity.RESULT_QUERY)
                 query?.let { onQueryChanged(it) }
             }
@@ -74,7 +74,7 @@ class FactsActivity : BaseActivity<FactsViewState>() {
 
     override fun onStateUpdated(state: FactsViewState) {
         state.apply {
-            if(facts.isEmpty()){
+            if (facts.isEmpty()) {
                 setLayoutState(LAYOUT_STATE_EMPTY)
             } else {
                 setAdapterItems(facts)
@@ -82,7 +82,7 @@ class FactsActivity : BaseActivity<FactsViewState>() {
             }
 
             event?.peek {
-                when(it) {
+                when (it) {
                     is BaseViewEvent.Loading -> {
                         setLayoutState(LAYOUT_STATE_LOADING)
                         true
@@ -101,7 +101,7 @@ class FactsActivity : BaseActivity<FactsViewState>() {
         viewModel.setQuery(query)
     }
 
-    private fun initLayoutState(){
+    private fun initLayoutState() {
         val layoutInflater = LayoutInflater.from(this)
         vStateLayout.setStateView(LAYOUT_STATE_LOADING, layoutInflater.inflate(R.layout.state_loading, null))
         vStateLayout.setStateView(LAYOUT_STATE_EMPTY, layoutInflater.inflate(R.layout.state_empty, null))
@@ -109,12 +109,12 @@ class FactsActivity : BaseActivity<FactsViewState>() {
         setLayoutState(LAYOUT_STATE_ERROR)
     }
 
-    private fun initAdapter(){
+    private fun initAdapter() {
         vFacts.itemAnimator = null
         adapter = vFacts.setUp<Fact> {
             withLayoutResId(R.layout.item_fact)
             bind { fact ->
-                if(this is MaterialCardView) isClickable = false
+                if (this is MaterialCardView) isClickable = false
 
                 vFact.text = fact.text
                 vFact.textSize = viewModel.getFactTextSize(fact)
@@ -127,7 +127,7 @@ class FactsActivity : BaseActivity<FactsViewState>() {
         }
     }
 
-    private fun setLayoutState(state: String, message: String? = null){
+    private fun setLayoutState(state: String, message: String? = null) {
         vStateLayout.state = state
         message?.let {
             vStateLayout.getStateView(state)
@@ -136,7 +136,7 @@ class FactsActivity : BaseActivity<FactsViewState>() {
         }
     }
 
-    private fun setAdapterItems(facts: List<Fact>){
+    private fun setAdapterItems(facts: List<Fact>) {
         adapter.clear()
         adapter + facts
     }
@@ -150,10 +150,9 @@ class FactsActivity : BaseActivity<FactsViewState>() {
             .startChooser()
     }
 
-    private fun openSearch(){
+    private fun openSearch() {
         ifConnected(true) {
             startActivityForResult(intentFor<SearchActivity>(), REQUEST_QUERY)
         }
     }
-
 }

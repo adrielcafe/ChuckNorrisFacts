@@ -9,9 +9,9 @@ inline fun ifDebug(body: () -> Unit) {
 
 inline fun <reified T> javaClass(): Class<T> = T::class.java
 
-fun Throwable.getUserFriendlyMessage(): String = when(this) {
+fun Throwable.getUserFriendlyMessage(): String = when (this) {
     is HttpException -> {
-        when(code()){
+        when (code()) {
             in 400..499 -> "Hey pal, are you connected?"
             in 500..599 -> "The server isn't having a good day"
             else -> "Something with the network isn't right"

@@ -20,7 +20,7 @@ class FactRepository(private val factService: FactService, private val preferenc
     fun getCategories() =
         getLocalCategories()
             .map { categories ->
-                if(categories.isEmpty()){
+                if (categories.isEmpty()) {
                     getRemoteCategories().blockingGet()
                 } else {
                     categories
@@ -42,5 +42,4 @@ class FactRepository(private val factService: FactService, private val preferenc
                 // Cache the result
                 preferences.write(PREF_FACT_CATEGORIES, it).blockingAwait()
             }
-
 }

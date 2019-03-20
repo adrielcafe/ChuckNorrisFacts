@@ -22,5 +22,4 @@ abstract class BaseActivity<S : ViewState> : AppCompatActivity() {
 
     protected fun showMessage(text: String) =
         Snackbar.make(findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT).show()
-
 }
