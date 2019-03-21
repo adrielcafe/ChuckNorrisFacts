@@ -1,4 +1,4 @@
-package cafe.adriel.chucknorrisfacts
+package cafe.adriel.chucknorrisfacts.mock
 
 import okhttp3.mock.Behavior.UNORDERED
 import okhttp3.mock.ClasspathResources.resource
@@ -10,11 +10,11 @@ import okhttp3.mock.get
 import okhttp3.mock.rule
 import okhttp3.mock.url
 
-object FactServiceInterceptor {
+object MockFactService {
 
-    const val QUERY_SUCCESS = "returns_success"
-    const val QUERY_EMPTY = "returns_empty"
-    const val QUERY_ERROR = "returns_error"
+    const val QUERY_SUCCESS = "success"
+    const val QUERY_EMPTY = "empty"
+    const val QUERY_ERROR = "error"
 
     val mockInterceptor by lazy {
         MockInterceptor(UNORDERED).apply {

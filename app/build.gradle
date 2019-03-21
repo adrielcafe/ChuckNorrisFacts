@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "cafe.adriel.chucknorrisfacts.runner.TestRunner"
 
         buildConfigField 'String', 'CHUCK_NORRIS_API_BASE_URL', '\"https://api.chucknorris.io/jokes/\"'
     }
@@ -33,8 +33,10 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+
         test.java.srcDirs += ['src/test/kotlin', 'src/sharedTest/kotlin']
         test.resources.srcDirs += 'src/sharedTest/resources'
+
         androidTest.java.srcDirs += ['src/androidTest/kotlin', 'src/sharedTest/kotlin']
         androidTest.resources.srcDirs += 'src/sharedTest/resources'
     }

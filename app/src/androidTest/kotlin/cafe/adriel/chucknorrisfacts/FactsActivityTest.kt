@@ -1,6 +1,7 @@
 package cafe.adriel.chucknorrisfacts
 
 import androidx.test.ext.junit.rules.activityScenarioRule
+import cafe.adriel.chucknorrisfacts.mock.MockFactService
 import cafe.adriel.chucknorrisfacts.presentation.facts.FactsActivity
 import com.schibsted.spain.barista.assertion.BaristaListAssertions.assertListHasItems
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
@@ -15,19 +16,19 @@ class FactsActivityTest : BaseActivityTest<FactsActivity>() {
 
     @Test
     fun checkSuccessResult() {
-        searchFact(FactServiceInterceptor.QUERY_SUCCESS)
+        searchFact(MockFactService.QUERY_SUCCESS)
         assertListHasItems(R.id.vFacts)
     }
 
     @Test
     fun checkEmptyResult() {
-        searchFact(FactServiceInterceptor.QUERY_EMPTY)
+        searchFact(MockFactService.QUERY_EMPTY)
         assertDisplayed(R.id.vStateTitle, R.string.no_facts)
     }
 
     @Test
     fun checkErrorResult() {
-        searchFact(FactServiceInterceptor.QUERY_ERROR)
+        searchFact(MockFactService.QUERY_ERROR)
         assertDisplayed(R.id.vStateTitle, R.string.something_went_wrong)
     }
 
