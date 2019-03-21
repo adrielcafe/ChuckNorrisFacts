@@ -1,16 +1,16 @@
-package cafe.adriel.chucknorrisfacts.repository.fact
+package cafe.adriel.chucknorrisfacts.repository.facts
 
 import com.pacoworks.rxpaper2.RxPaperBook
 
-class FactRepository(private val factService: FactService, private val preferences: RxPaperBook) {
+class FactsRepository(private val factsService: FactsService, private val preferences: RxPaperBook) {
 
     companion object {
-        private const val PREF_FACT_CATEGORIES = "factCategories"
-        private const val MAX_CATEGORIES = 8
+        const val PREF_FACT_CATEGORIES = "factCategories"
+        const val MAX_CATEGORIES = 8
     }
 
     fun getFacts(query: String) =
-        factService.getFacts(query)
+        factsService.getFacts(query)
             .map { it.result }
 
     fun getCategories() =
@@ -31,7 +31,7 @@ class FactRepository(private val factService: FactService, private val preferenc
         preferences.read<Set<String>>(PREF_FACT_CATEGORIES, emptySet())
 
     private fun getRemoteCategories() =
-        factService.getCategories()
+        factsService.getCategories()
             .doOnSuccess {
                 // Cache the result
                 preferences.write(PREF_FACT_CATEGORIES, it).blockingAwait()
