@@ -1,17 +1,20 @@
 package cafe.adriel.chucknorrisfacts.mock
 
+import cafe.adriel.chucknorrisfacts.BuildConfig
 import okhttp3.mock.Behavior.UNORDERED
 import okhttp3.mock.ClasspathResources.resource
 import okhttp3.mock.HttpCode.HTTP_500_INTERNAL_SERVER_ERROR
 import okhttp3.mock.MediaTypes.MEDIATYPE_JSON
 import okhttp3.mock.MockInterceptor
-import okhttp3.mock.endsWith
+import okhttp3.mock.eq
 import okhttp3.mock.get
 import okhttp3.mock.rule
+import okhttp3.mock.startWith
 import okhttp3.mock.url
 
 object MockFactService {
 
+    private const val API_URL = BuildConfig.CHUCK_NORRIS_API_BASE_URL
     const val QUERY_SUCCESS = "success"
     const val QUERY_EMPTY = "empty"
     const val QUERY_ERROR = "error"
@@ -19,18 +22,18 @@ object MockFactService {
     val mockInterceptor by lazy {
         MockInterceptor(UNORDERED).apply {
             // /search
-            rule(get, url endsWith "/search?query=$QUERY_SUCCESS") {
-                respond(resource("facts.json"), MEDIATYPE_JSON)
+            rule(get, url eq "${API_URL}search?query=$QUERY_ERROR", times = Int.MAX_VALUE) {
+                respond(HTTP_500_INTERNAL_SERVER_ERROR)
             }
-            rule(get, url endsWith "/search?query=$QUERY_EMPTY") {
+            rule(get, url eq "${API_URL}search?query=$QUERY_EMPTY", times = Int.MAX_VALUE) {
                 respond(resource("facts_empty.json"), MEDIATYPE_JSON)
             }
-            rule(get, url endsWith "/search?query=$QUERY_ERROR") {
-                respond(HTTP_500_INTERNAL_SERVER_ERROR)
+            rule(get, url startWith "${API_URL}search?query=", times = Int.MAX_VALUE) {
+                respond(resource("facts_success.json"), MEDIATYPE_JSON)
             }
 
             // /categories
-            rule(get, url endsWith "/categories") {
+            rule(get, url eq "${API_URL}categories", times = Int.MAX_VALUE) {
                 respond(resource("categories.json"), MEDIATYPE_JSON)
             }
         }

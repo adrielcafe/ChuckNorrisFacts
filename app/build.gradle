@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0.0"
 
-        testInstrumentationRunner "cafe.adriel.chucknorrisfacts.runner.TestRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField 'String', 'CHUCK_NORRIS_API_BASE_URL', '\"https://api.chucknorris.io/jokes/\"'
     }

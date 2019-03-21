@@ -1,8 +1,6 @@
 package cafe.adriel.chucknorrisfacts.repository.fact
 
 import com.pacoworks.rxpaper2.RxPaperBook
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class FactRepository(private val factService: FactService, private val preferences: RxPaperBook) {
 
@@ -14,8 +12,6 @@ class FactRepository(private val factService: FactService, private val preferenc
     fun getFacts(query: String) =
         factService.getFacts(query)
             .map { it.result }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
 
     fun getCategories() =
         getLocalCategories()
@@ -30,8 +26,6 @@ class FactRepository(private val factService: FactService, private val preferenc
                 // Select 8 random categories
                 categories.shuffled().take(MAX_CATEGORIES).toSet()
             }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
 
     private fun getLocalCategories() =
         preferences.read<Set<String>>(PREF_FACT_CATEGORIES, emptySet())
