@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name" translatable="false">Chuck Facts</string>
+    <string name="app_name_full" translatable="false">Chuck Norris Facts</string>
+
+    <string name="search">Search</string>
+    <string name="share">Share</string>
+    <string name="suggestions">Suggestions</string>
+    <string name="past_searches">Past Searches</string>
+    <string name="looking_for">I\'m looking for…</string>
+    <string name="no_facts">No facts, yet</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="uncategorized">Uncategorized</string>
+    <string name="connect_internet">Connect to the internet</string>
+    <string name="query_too_short">The query is too short</string>
+</resources>
