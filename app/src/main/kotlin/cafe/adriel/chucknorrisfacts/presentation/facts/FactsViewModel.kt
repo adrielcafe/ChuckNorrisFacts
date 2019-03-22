@@ -7,12 +7,14 @@ import cafe.adriel.chucknorrisfacts.extension.isConnected
 import cafe.adriel.chucknorrisfacts.model.Fact
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewModel
-import cafe.adriel.chucknorrisfacts.repository.fact.FactRepository
+import cafe.adriel.chucknorrisfacts.repository.facts.FactsRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.schedulers.Schedulers
 
 class FactsViewModel(
     val appContext: Context,
-    val factRepository: FactRepository
+    val factsRepository: FactsRepository
 ) : BaseViewModel<FactsViewState>() {
 
     companion object {
@@ -34,8 +36,10 @@ class FactsViewModel(
 
         updateState { it.copy(event = BaseViewEvent.Loading()) }
 
-        disposables += factRepository
+        disposables += factsRepository
             .getFacts(query)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ facts ->
                 updateState { it.copy(facts = facts) }
             }, ::handleError)

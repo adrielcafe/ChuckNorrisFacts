@@ -7,6 +7,7 @@ import cafe.adriel.chucknorrisfacts.extension.ifDebug
 import com.github.ajalt.timberkt.Timber
 import com.pacoworks.rxpaper2.RxPaperBook
 import com.squareup.leakcanary.LeakCanary
+import com.squareup.leakcanary.RefWatcher
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -17,7 +18,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         if (LeakCanary.isInAnalyzerProcess(this)) return
-        LeakCanary.install(this)
+        if (LeakCanary.installedRefWatcher() == RefWatcher.DISABLED) LeakCanary.install(this)
 
         ifDebug {
             Timber.plant(Timber.DebugTree())

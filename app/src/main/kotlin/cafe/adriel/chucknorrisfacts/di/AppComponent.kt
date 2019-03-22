@@ -5,8 +5,8 @@ import cafe.adriel.chucknorrisfacts.BuildConfig
 import cafe.adriel.chucknorrisfacts.presentation.facts.FactsViewModel
 import cafe.adriel.chucknorrisfacts.presentation.search.SearchViewModel
 import cafe.adriel.chucknorrisfacts.repository.ServiceFactory
-import cafe.adriel.chucknorrisfacts.repository.fact.FactRepository
-import cafe.adriel.chucknorrisfacts.repository.fact.FactService
+import cafe.adriel.chucknorrisfacts.repository.facts.FactsRepository
+import cafe.adriel.chucknorrisfacts.repository.facts.FactsService
 import cafe.adriel.chucknorrisfacts.repository.search.SearchRepository
 import com.pacoworks.rxpaper2.RxPaperBook
 import org.koin.android.viewmodel.dsl.viewModel
@@ -18,15 +18,15 @@ class AppComponent(private val appContext: Context) : Component {
         single { RxPaperBook.with() }
     }
     private val serviceModule = module {
-        single { ServiceFactory.newInstance<FactService>(BuildConfig.CHUCK_NORRIS_API_BASE_URL) }
+        single { ServiceFactory.newInstance<FactsService>(BuildConfig.CHUCK_NORRIS_API_BASE_URL) }
     }
     private val repositoryModule = module {
-        single { FactRepository(factService = get(), preferences = get()) }
+        single { FactsRepository(factsService = get(), preferences = get()) }
         single { SearchRepository(preferences = get()) }
     }
     private val viewModelModule = module {
-        viewModel { FactsViewModel(appContext = appContext, factRepository = get()) }
-        viewModel { SearchViewModel(factRepository = get(), searchRepository = get()) }
+        viewModel { FactsViewModel(appContext = appContext, factsRepository = get()) }
+        viewModel { SearchViewModel(factsRepository = get(), searchRepository = get()) }
     }
 
     override fun getModules() = listOf(
