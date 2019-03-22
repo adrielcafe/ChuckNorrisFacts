@@ -11,4 +11,5 @@
     <string name="something_went_wrong">Something went wrong</string>
     <string name="uncategorized">Uncategorized</string>
     <string name="connect_internet">Connect to the internet</string>
+    <string name="query_too_short">The query is too short</string>
 </resources>

@@ -26,7 +26,7 @@ abstract class BaseTest : AutoCloseKoinTest() {
         StrictMode.enableDefaults()
 
         // Set mock interceptor to handle API responses
-        ServiceFactory.mockInterceptors.add(MockFactsService.mockInterceptor)
+        ServiceFactory.mockInterceptors += MockFactsService.mockInterceptor
 
         // Clear local DB
         RxPaperBook.with().destroy().blockingAwait()

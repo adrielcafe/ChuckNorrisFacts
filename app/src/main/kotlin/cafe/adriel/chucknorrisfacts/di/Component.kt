@@ -5,5 +5,4 @@ import org.koin.core.module.Module
 interface Component {
 
     fun getModules(): Set<Module>
-
 }

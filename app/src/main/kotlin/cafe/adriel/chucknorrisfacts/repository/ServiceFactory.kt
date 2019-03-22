@@ -19,7 +19,7 @@ object ServiceFactory {
             if (isDebug()) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
         )
     }
-    val mockInterceptors: Set<Interceptor> by lazy {
+    val mockInterceptors: MutableSet<Interceptor> by lazy {
         mutableSetOf<Interceptor>()
     }
     val jsonConverter: Moshi by lazy {
