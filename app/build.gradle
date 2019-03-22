@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.ben-manes.versions'
 
+def rawBuildNumber = System.getenv("BITRISE_BUILD_NUMBER") ?: "1"
+def buildNumber = Integer.parseInt(rawBuildNumber)
+
 // Robolectric and Paper use different versions of ASM lib, so we must force the most recent one
 configurations.all {
     resolutionStrategy.force 'org.ow2.asm:asm:7.1'
@@ -17,7 +20,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
 
-        versionCode 1
+        versionCode buildNumber
         versionName "1.0.0"
 
         testInstrumentationRunner "cafe.adriel.chucknorrisfacts.runner.TestRunner"
