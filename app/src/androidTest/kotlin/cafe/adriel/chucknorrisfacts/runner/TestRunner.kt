@@ -16,7 +16,7 @@ class TestRunner : AndroidJUnitRunner() {
         StrictMode.enableDefaults()
 
         // Set mock interceptor to handle API responses
-        ServiceFactory.mockInterceptors.add(MockFactsService.mockInterceptor)
+        ServiceFactory.mockInterceptors += MockFactsService.mockInterceptor
 
         // Add RxJava idling resources
         RxJavaPlugins.setInitComputationSchedulerHandler(Rx2Idler.create("RxJava Computation Scheduler"))

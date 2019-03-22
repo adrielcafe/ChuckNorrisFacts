@@ -78,7 +78,8 @@ class SearchActivity : BaseActivity<SearchViewState>() {
     }
 
     private fun returnQuery(query: String) {
-        if (query.isBlank()) {
+        if (!viewModel.isQueryValid(query)) {
+            showMessage(R.string.query_too_short)
             return
         }
 

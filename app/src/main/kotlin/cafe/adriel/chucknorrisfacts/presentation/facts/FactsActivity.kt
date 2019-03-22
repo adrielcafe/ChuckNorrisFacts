@@ -98,7 +98,7 @@ class FactsActivity : BaseActivity<FactsViewState>() {
 
     private fun initLayoutState() {
         val layoutInflater = LayoutInflater.from(this)
-        with(vStateLayout){
+        with(vStateLayout) {
             setStateView(LAYOUT_STATE_LOADING, layoutInflater.inflate(R.layout.state_loading, null))
             setStateView(LAYOUT_STATE_EMPTY, layoutInflater.inflate(R.layout.state_empty, null))
             setStateView(LAYOUT_STATE_ERROR, layoutInflater.inflate(R.layout.state_error, null))

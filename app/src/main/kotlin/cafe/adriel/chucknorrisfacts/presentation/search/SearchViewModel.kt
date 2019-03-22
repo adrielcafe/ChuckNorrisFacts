@@ -26,6 +26,12 @@ class SearchViewModel(
 
     fun formatQuery(query: String) = query.toLowerCase().trim()
 
+    fun isQueryValid(query: String) = when {
+        query.isBlank() -> false
+        query.length < 3 -> false
+        else -> true
+    }
+
     private fun loadSuggestions() {
         disposables += factsRepository.getCategories()
             .subscribeOn(Schedulers.io())
