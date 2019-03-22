@@ -5,8 +5,8 @@ import com.pacoworks.rxpaper2.RxPaperBook
 class SearchRepository(private val preferences: RxPaperBook) {
 
     companion object {
-        private const val PREF_PAST_SEARCHES = "pastSearches"
-        private const val MAX_SEARCH_QUERIES = 8
+        const val PREF_PAST_SEARCHES = "pastSearches"
+        const val MAX_SEARCH_QUERIES = 8
     }
 
     fun getPastSearches() =
@@ -29,5 +29,5 @@ class SearchRepository(private val preferences: RxPaperBook) {
             .doOnSuccess { terms ->
                 preferences.write(PREF_PAST_SEARCHES, terms).blockingAwait()
             }
-            .subscribe()
+            .map { Unit }
 }

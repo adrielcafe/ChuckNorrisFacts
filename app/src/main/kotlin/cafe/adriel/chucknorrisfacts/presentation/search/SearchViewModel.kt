@@ -20,6 +20,8 @@ class SearchViewModel(
 
     fun saveQuery(query: String) {
         disposables += searchRepository.addSearchQuery(query)
+            .doOnError { it.printStackTrace() }
+            .subscribe()
     }
 
     fun formatQuery(query: String) = query.toLowerCase().trim()

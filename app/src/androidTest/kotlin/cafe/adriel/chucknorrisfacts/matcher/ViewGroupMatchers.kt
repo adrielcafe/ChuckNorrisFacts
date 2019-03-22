@@ -7,7 +7,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 
 // Based on https://stackoverflow.com/a/35899479/1055354
-fun nthChildOf(parentMatcher: Matcher<View>, childPosition: Int): Matcher<View> {
+fun childOf(parentMatcher: Matcher<View>, childPosition: Int): Matcher<View> {
     return object : TypeSafeMatcher<View>() {
         override fun describeTo(description: Description) {
             description.appendText("position $childPosition of parent ")
