@@ -34,7 +34,7 @@ class FactsViewModelTest : BaseTest() {
 
     @Test
     fun getFactTextSize_FactHasShortText_ReturnBigTextSize() {
-        val shortText = "".padEnd(FactsViewModel.FACT_TEXT_LENGTH_LIMIT, 'a')
+        val shortText = "".padEnd(FactsViewModel.FACT_TEXT_LENGTH_THRESHOLD, 'a')
         val fact = Fact(shortText, "http://chuck.norris")
 
         val textSize = viewModel.getFactTextSize(fact)
@@ -43,7 +43,7 @@ class FactsViewModelTest : BaseTest() {
 
     @Test
     fun getFactTextSize_FactHasLongText_ReturnSmallTextSize() {
-        val longText = "".padEnd(FactsViewModel.FACT_TEXT_LENGTH_LIMIT + 1, 'a')
+        val longText = "".padEnd(FactsViewModel.FACT_TEXT_LENGTH_THRESHOLD + 1, 'a')
         val fact = Fact(longText, "http://chuck.norris")
 
         val textSize = viewModel.getFactTextSize(fact)

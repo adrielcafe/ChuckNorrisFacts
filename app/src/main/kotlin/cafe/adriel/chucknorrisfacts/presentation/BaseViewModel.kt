@@ -8,6 +8,7 @@ import io.reactivex.disposables.CompositeDisposable
 abstract class BaseViewModel<S : ViewState> : StateViewModel<S>() {
 
     override val state = MutableLiveData<S>()
+
     protected val disposables = CompositeDisposable()
 
     override fun onCleared() {

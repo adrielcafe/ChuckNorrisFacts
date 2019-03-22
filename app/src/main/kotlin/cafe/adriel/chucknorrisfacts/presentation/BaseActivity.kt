@@ -18,8 +18,7 @@ abstract class BaseActivity<S : ViewState> : AppCompatActivity() {
 
     protected abstract fun onStateUpdated(state: S)
 
-    protected fun showMessage(@StringRes textResId: Int) = showMessage(getString(textResId))
+    protected fun showMessage(@StringRes textResId: Int) =
+        Snackbar.make(findViewById(android.R.id.content), textResId, Snackbar.LENGTH_SHORT).show()
 
-    protected fun showMessage(text: String) =
-        Snackbar.make(findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT).show()
 }

@@ -20,7 +20,7 @@ class SearchViewModel(
 
     fun saveQuery(query: String) {
         disposables += searchRepository.addSearchQuery(query)
-            .doOnError { it.printStackTrace() }
+            .doOnError(::handleError)
             .subscribe()
     }
 
@@ -30,8 +30,8 @@ class SearchViewModel(
         disposables += factsRepository.getCategories()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ result ->
-                updateState { it.copy(suggestions = result) }
+            .subscribe({ items ->
+                updateState { it.copy(suggestions = items) }
             }, ::handleError)
     }
 
@@ -39,8 +39,8 @@ class SearchViewModel(
         disposables += searchRepository.getPastSearches()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ result ->
-                updateState { it.copy(pastSearches = result) }
+            .subscribe({ items ->
+                updateState { it.copy(pastSearches = items) }
             }, ::handleError)
     }
 
