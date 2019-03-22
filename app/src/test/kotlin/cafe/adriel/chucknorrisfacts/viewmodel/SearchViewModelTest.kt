@@ -14,16 +14,15 @@ class SearchViewModelTest : BaseTest() {
     private val viewModel by inject<SearchViewModel>()
 
     @Test
-    fun formatQuery_BeforeShowQuery_ReturnFormattedQuery(){
+    fun formatQuery_BeforeShowQuery_ReturnFormattedQuery() {
         val unformattedQuery = " Query "
 
         val formattedQuery = viewModel.formatQuery(unformattedQuery)
-        expectThat(formattedQuery){
+        expectThat(formattedQuery) {
             isNotEqualTo(unformattedQuery)
             isLowerCase()
             not { startsWith(' ') }
             not { endsWith(' ') }
         }
     }
-
 }

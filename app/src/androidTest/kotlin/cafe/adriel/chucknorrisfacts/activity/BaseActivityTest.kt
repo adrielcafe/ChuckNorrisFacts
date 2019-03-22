@@ -31,13 +31,12 @@ abstract class BaseActivityTest<T : Activity> {
     val clearFilesRule = ClearFilesRule()
 
     @Before
-    open fun setUp(){
+    open fun setUp() {
         // Clear local DB
         RxPaperBook.with().destroy().blockingAwait()
     }
 
     @After
-    open fun tearDown(){
+    open fun tearDown() {
     }
-
 }

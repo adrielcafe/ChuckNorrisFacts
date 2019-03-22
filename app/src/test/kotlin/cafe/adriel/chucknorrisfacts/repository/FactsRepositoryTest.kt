@@ -19,47 +19,46 @@ class FactsRepositoryTest : BaseTest() {
     private val preferences by inject<RxPaperBook>()
 
     @Test
-    fun getFacts_QueryHasItem_ReturnNotEmptyList(){
+    fun getFacts_QueryHasItem_ReturnNotEmptyList() {
         val facts = factsRepository.getFacts(MockFactsService.QUERY_SUCCESS_RESULT).blockingGet()
         expectThat(facts).isNotEmpty()
     }
 
     @Test
-    fun getFacts_QueryHasNoItem_ReturnEmptyList(){
+    fun getFacts_QueryHasNoItem_ReturnEmptyList() {
         val facts = factsRepository.getFacts(MockFactsService.QUERY_EMPTY_RESULT).blockingGet()
         expectThat(facts).isEmpty()
     }
 
     @Test
-    fun getFacts_QueryIsNotSupported_ThrowException(){
+    fun getFacts_QueryIsNotSupported_ThrowException() {
         expectThrows<HttpException> {
             factsRepository.getFacts(MockFactsService.QUERY_ERROR_RESULT).blockingGet()
         }
     }
 
     @Test
-    fun getCategories_IsFirstAppRun_ReturnEmptySet(){
+    fun getCategories_IsFirstAppRun_ReturnEmptySet() {
         val categories = preferences.read(FactsRepository.PREF_FACT_CATEGORIES, emptySet<String>()).blockingGet()
         expectThat(categories).isEmpty()
     }
 
     @Test
-    fun getCategories_ShowCategories_ReturnNotEmptySet(){
+    fun getCategories_ShowCategories_ReturnNotEmptySet() {
         val categories = factsRepository.getCategories().blockingGet()
         expectThat(categories).isNotEmpty()
     }
 
     @Test
-    fun getCategories_ShowCategories_ReturnSetWithCorrectSize(){
+    fun getCategories_ShowCategories_ReturnSetWithCorrectSize() {
         val categories = factsRepository.getCategories().blockingGet()
         expectThat(categories).hasSize(FactsRepository.MAX_CATEGORIES)
     }
 
     @Test
-    fun getCategories_ShowCategoriesTwice_CategoriesAreDifferent(){
+    fun getCategories_ShowCategoriesTwice_CategoriesAreDifferent() {
         val categoriesFirstTime = factsRepository.getCategories().blockingGet()
         val categoriesSecondTime = factsRepository.getCategories().blockingGet()
         expectThat(categoriesFirstTime).isNotEqualTo(categoriesSecondTime)
     }
-
 }

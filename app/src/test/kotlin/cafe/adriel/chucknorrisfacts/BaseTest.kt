@@ -21,7 +21,7 @@ abstract class BaseTest : AutoCloseKoinTest() {
     }
 
     @Before
-    open fun setUp(){
+    open fun setUp() {
         // Reset Strict Mode during tests
         StrictMode.enableDefaults()
 
@@ -33,7 +33,6 @@ abstract class BaseTest : AutoCloseKoinTest() {
     }
 
     @After
-    open fun tearDown(){
+    open fun tearDown() {
     }
-
 }

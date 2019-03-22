@@ -51,20 +51,19 @@ class FactsActivityTest : BaseActivityTest<FactsActivity>() {
         assertDisplayed(R.id.vStateTitle, R.string.something_went_wrong)
     }
 
-    private fun searchByQuery(query: String){
+    private fun searchByQuery(query: String) {
         clickMenu(R.id.action_search)
         writeTo(R.id.vQuery, query)
         pressImeActionButton()
     }
 
-    private fun searchBySuggestion(position: Int){
+    private fun searchBySuggestion(position: Int) {
         clickMenu(R.id.action_search)
         onView(childOf(withId(R.id.vSuggestions), position)).perform(click())
     }
 
-    private fun searchByPastSearch(query: String){
+    private fun searchByPastSearch(query: String) {
         clickMenu(R.id.action_search)
         clickOn(query)
     }
-
 }

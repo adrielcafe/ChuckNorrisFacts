@@ -24,5 +24,4 @@ class TestRunner : AndroidJUnitRunner() {
         RxJavaPlugins.setInitSingleSchedulerHandler(Rx2Idler.create("RxJava Single Scheduler"))
         RxJavaPlugins.setInitNewThreadSchedulerHandler(Rx2Idler.create("RxJava NewThread Scheduler"))
     }
-
 }
