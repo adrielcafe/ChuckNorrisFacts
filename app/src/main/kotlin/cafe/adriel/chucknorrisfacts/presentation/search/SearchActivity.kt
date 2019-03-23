@@ -92,7 +92,7 @@ class SearchActivity : BaseActivity<SearchViewState>() {
         finish()
     }
 
-    private fun addSuggestions(suggestions: Set<String>) {
+    fun addSuggestions(suggestions: Set<String>) {
         vSuggestions.removeAllViews()
         suggestions.forEach { query ->
             val chipView = createChipView(query)
@@ -100,7 +100,7 @@ class SearchActivity : BaseActivity<SearchViewState>() {
         }
     }
 
-    private fun addPastSearches(pastSearches: List<String>) {
+    fun addPastSearches(pastSearches: List<String>) {
         vPastSearches.removeAllViews()
         pastSearches.forEach { query ->
             val chipView = createChipView(query)

@@ -41,12 +41,14 @@ object ServiceFactory {
             .build()
     }
 
-    inline fun <reified T> newInstance(baseUrl: String): T =
-        Retrofit.Builder()
+    inline fun <reified T> newInstance(baseUrl: String): T {
+        return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(httpClient)
             .addConverterFactory(MoshiConverterFactory.create(jsonConverter))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
-            .create(javaClass<T>())
+            .create(javaClass())
+    }
+
 }

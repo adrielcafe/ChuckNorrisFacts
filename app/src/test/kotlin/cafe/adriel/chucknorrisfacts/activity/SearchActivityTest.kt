@@ -1,6 +1,7 @@
 package cafe.adriel.chucknorrisfacts.activity
 
 import android.app.Activity
+import android.view.ViewGroup
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import cafe.adriel.chucknorrisfacts.BaseTest
 import cafe.adriel.chucknorrisfacts.R
@@ -12,7 +13,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.robolectric.Shadows.shadowOf
 import strikt.api.expect
+import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNotEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 
@@ -45,6 +48,17 @@ class SearchActivityTest : BaseTest() {
             that(resultCode).isEqualTo(Activity.RESULT_CANCELED)
             that(resultIntent).isNull()
         }
+    }
+
+    @Test
+    fun haveSearchedBefore_ShowPastSearches() {
+        intentsTestRule.activity.addPastSearches(listOf("test 1", "test 2", "test 3"))
+
+        val pastSearchCount = intentsTestRule
+            .activity
+            .findViewById<ViewGroup>(R.id.vPastSearches)
+            .childCount
+        expectThat(pastSearchCount).isNotEqualTo(0)
     }
 
     private fun searchByQuery(query: String) {
