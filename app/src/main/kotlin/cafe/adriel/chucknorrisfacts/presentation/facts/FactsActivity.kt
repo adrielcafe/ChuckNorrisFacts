@@ -10,8 +10,8 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.core.app.ShareCompat
 import cafe.adriel.chucknorrisfacts.R
-import cafe.adriel.chucknorrisfacts.extension.ifConnected
 import cafe.adriel.chucknorrisfacts.extension.intentFor
+import cafe.adriel.chucknorrisfacts.extension.runIfConnected
 import cafe.adriel.chucknorrisfacts.model.Fact
 import cafe.adriel.chucknorrisfacts.presentation.BaseActivity
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
@@ -83,15 +83,10 @@ class FactsActivity : BaseActivity<FactsViewState>() {
 
             event?.peek {
                 when (it) {
-                    is BaseViewEvent.Loading -> {
-                        setLayoutState(LAYOUT_STATE_LOADING)
-                        true
-                    }
-                    is BaseViewEvent.Error -> {
-                        setLayoutState(LAYOUT_STATE_ERROR, it.message)
-                        true
-                    }
+                    is BaseViewEvent.Loading -> setLayoutState(LAYOUT_STATE_LOADING)
+                    is BaseViewEvent.Error -> setLayoutState(LAYOUT_STATE_ERROR, it.message)
                 }
+                true
             }
         }
     }
@@ -103,10 +98,11 @@ class FactsActivity : BaseActivity<FactsViewState>() {
 
     private fun initLayoutState() {
         val layoutInflater = LayoutInflater.from(this)
-        vStateLayout.setStateView(LAYOUT_STATE_LOADING, layoutInflater.inflate(R.layout.state_loading, null))
-        vStateLayout.setStateView(LAYOUT_STATE_EMPTY, layoutInflater.inflate(R.layout.state_empty, null))
-        vStateLayout.setStateView(LAYOUT_STATE_ERROR, layoutInflater.inflate(R.layout.state_error, null))
-        setLayoutState(LAYOUT_STATE_ERROR)
+        with(vStateLayout) {
+            setStateView(LAYOUT_STATE_LOADING, layoutInflater.inflate(R.layout.state_loading, null))
+            setStateView(LAYOUT_STATE_EMPTY, layoutInflater.inflate(R.layout.state_empty, null))
+            setStateView(LAYOUT_STATE_ERROR, layoutInflater.inflate(R.layout.state_error, null))
+        }
     }
 
     private fun initAdapter() {
@@ -151,7 +147,7 @@ class FactsActivity : BaseActivity<FactsViewState>() {
     }
 
     private fun openSearch() {
-        ifConnected(true) {
+        runIfConnected(true) {
             startActivityForResult(intentFor<SearchActivity>(), REQUEST_QUERY)
         }
     }

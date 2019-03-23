@@ -18,9 +18,9 @@ fun childOf(parentMatcher: Matcher<View>, childPosition: Int): Matcher<View> {
             if (view.parent !is ViewGroup) return false
             val parent = view.parent as ViewGroup
 
-            return (parentMatcher.matches(parent)
-                    && parent.childCount > childPosition
-                    && parent.getChildAt(childPosition) == view)
+            return (parentMatcher.matches(parent) &&
+                    parent.childCount > childPosition &&
+                    parent.getChildAt(childPosition) == view)
         }
     }
 }

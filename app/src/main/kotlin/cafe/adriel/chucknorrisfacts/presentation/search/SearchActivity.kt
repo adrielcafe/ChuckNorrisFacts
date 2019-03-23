@@ -78,7 +78,8 @@ class SearchActivity : BaseActivity<SearchViewState>() {
     }
 
     private fun returnQuery(query: String) {
-        if (query.isBlank()) {
+        if (!viewModel.isQueryValid(query)) {
+            showMessage(R.string.query_too_short)
             return
         }
 
@@ -107,11 +108,10 @@ class SearchActivity : BaseActivity<SearchViewState>() {
         }
     }
 
-    private fun createChipView(query: String) =
-        Chip(this).apply {
-            text = viewModel.formatQuery(query)
-            setTextColor(Color.WHITE)
-            setChipBackgroundColorResource(R.color.colorAccent)
-            setOnClickListener { returnQuery(query) }
-        }
+    private fun createChipView(query: String) = Chip(this).apply {
+        text = viewModel.formatQuery(query)
+        setTextColor(Color.WHITE)
+        setChipBackgroundColorResource(R.color.colorAccent)
+        setOnClickListener { returnQuery(query) }
+    }
 }

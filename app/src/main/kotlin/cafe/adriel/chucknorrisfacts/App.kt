@@ -3,7 +3,8 @@ package cafe.adriel.chucknorrisfacts
 import android.app.Application
 import android.os.StrictMode
 import cafe.adriel.chucknorrisfacts.di.AppComponent
-import cafe.adriel.chucknorrisfacts.extension.ifDebug
+import cafe.adriel.chucknorrisfacts.extension.isDebug
+import cafe.adriel.chucknorrisfacts.extension.runIfDebug
 import com.github.ajalt.timberkt.Timber
 import com.pacoworks.rxpaper2.RxPaperBook
 import com.squareup.leakcanary.LeakCanary
@@ -20,7 +21,7 @@ class App : Application() {
         if (LeakCanary.isInAnalyzerProcess(this)) return
         if (LeakCanary.installedRefWatcher() == RefWatcher.DISABLED) LeakCanary.install(this)
 
-        ifDebug {
+        runIfDebug {
             Timber.plant(Timber.DebugTree())
 
             StrictMode.setThreadPolicy(
@@ -35,7 +36,7 @@ class App : Application() {
         }
 
         startKoin {
-            androidLogger(if (BuildConfig.RELEASE) Level.ERROR else Level.DEBUG)
+            androidLogger(if (isDebug()) Level.DEBUG else Level.ERROR)
             androidContext(applicationContext)
             modules(AppComponent(applicationContext).getModules())
         }

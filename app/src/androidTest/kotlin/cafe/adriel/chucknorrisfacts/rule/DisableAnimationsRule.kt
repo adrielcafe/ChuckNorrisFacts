@@ -35,5 +35,4 @@ class DisableAnimationsRule : TestRule {
             executeShellCommand("settings put global animator_duration_scale 1")
         }
     }
-
 }

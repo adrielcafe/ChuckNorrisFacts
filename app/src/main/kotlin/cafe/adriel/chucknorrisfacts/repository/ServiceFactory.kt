@@ -1,6 +1,6 @@
 package cafe.adriel.chucknorrisfacts.repository
 
-import cafe.adriel.chucknorrisfacts.BuildConfig
+import cafe.adriel.chucknorrisfacts.extension.isDebug
 import cafe.adriel.chucknorrisfacts.extension.javaClass
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -14,13 +14,23 @@ import java.util.concurrent.TimeUnit
 
 object ServiceFactory {
 
-    val mockInterceptors by lazy {
+    private val loggingInterceptor: Interceptor by lazy {
+        HttpLoggingInterceptor().setLevel(
+            if (isDebug()) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        )
+    }
+    val mockInterceptors: MutableSet<Interceptor> by lazy {
         mutableSetOf<Interceptor>()
+    }
+    val jsonConverter: Moshi by lazy {
+        Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
     }
     val httpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .also { builder ->
-                // Add mock interceptors, only used by tests
+                // Add mock interceptors, used only during tests
                 mockInterceptors.forEach {
                     builder.addInterceptor(it)
                 }
@@ -29,17 +39,6 @@ object ServiceFactory {
             // Chuck Norris Facts API can be very slow sometimes
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
-    }
-    val jsonConverter: Moshi by lazy {
-        Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-    }
-    private val loggingInterceptor: Interceptor by lazy {
-        HttpLoggingInterceptor().setLevel(
-            if (BuildConfig.RELEASE) HttpLoggingInterceptor.Level.NONE
-            else HttpLoggingInterceptor.Level.BODY
-        )
     }
 
     inline fun <reified T> newInstance(baseUrl: String): T =

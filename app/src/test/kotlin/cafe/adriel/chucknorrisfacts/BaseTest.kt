@@ -21,19 +21,18 @@ abstract class BaseTest : AutoCloseKoinTest() {
     }
 
     @Before
-    open fun setUp(){
+    open fun setUp() {
         // Reset Strict Mode during tests
         StrictMode.enableDefaults()
 
         // Set mock interceptor to handle API responses
-        ServiceFactory.mockInterceptors.add(MockFactsService.mockInterceptor)
+        ServiceFactory.mockInterceptors += MockFactsService.mockInterceptor
 
         // Clear local DB
         RxPaperBook.with().destroy().blockingAwait()
     }
 
     @After
-    open fun tearDown(){
+    open fun tearDown() {
     }
-
 }

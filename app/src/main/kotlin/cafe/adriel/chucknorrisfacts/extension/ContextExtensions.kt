@@ -12,11 +12,11 @@ inline fun <reified T : Activity> Context.intentFor() = Intent(this, javaClass<T
 
 fun Context.isConnected() = getSystemService<ConnectivityManager>()?.activeNetworkInfo?.isConnected ?: false
 
-fun Context.ifConnected(body: () -> Unit) {
+fun Context.runIfConnected(body: () -> Unit) {
     if (isConnected()) body()
 }
 
-fun Activity.ifConnected(showErrorMessage: Boolean = false, body: () -> Unit) {
+fun Activity.runIfConnected(showErrorMessage: Boolean = false, body: () -> Unit) {
     if (isConnected()) {
         body()
     } else if (showErrorMessage) {

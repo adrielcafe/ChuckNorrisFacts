@@ -18,7 +18,7 @@ class FactsViewModel(
 ) : BaseViewModel<FactsViewState>() {
 
     companion object {
-        const val FACT_TEXT_LENGTH_LIMIT = 80
+        const val FACT_TEXT_LENGTH_THRESHOLD = 80
         const val FACT_TEXT_SIZE_BIG = 20f
         const val FACT_TEXT_SIZE_SMALL = 16f
     }
@@ -40,8 +40,8 @@ class FactsViewModel(
             .getFacts(query)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ facts ->
-                updateState { it.copy(facts = facts) }
+            .subscribe({ items ->
+                updateState { it.copy(facts = items) }
             }, ::handleError)
     }
 
@@ -49,7 +49,7 @@ class FactsViewModel(
         fact.categories?.firstOrNull() ?: appContext.getString(R.string.uncategorized)
 
     fun getFactTextSize(fact: Fact): Float =
-        if (fact.text.length <= FACT_TEXT_LENGTH_LIMIT) FACT_TEXT_SIZE_BIG else FACT_TEXT_SIZE_SMALL
+        if (fact.text.length <= FACT_TEXT_LENGTH_THRESHOLD) FACT_TEXT_SIZE_BIG else FACT_TEXT_SIZE_SMALL
 
     fun getFactShareText(fact: Fact): String =
         """Chuck Norris fact:

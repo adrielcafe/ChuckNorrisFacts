@@ -15,7 +15,7 @@ class FactsViewModelTest : BaseTest() {
     private val viewModel by inject<FactsViewModel>()
 
     @Test
-    fun getFactCategory_FactHasCategory_ReturnFirstCategory(){
+    fun getFactCategory_FactHasCategory_ReturnFirstCategory() {
         val factCategories = listOf("category 1", "category 2")
         val fact = Fact("test", "http://chuck.norris", factCategories)
 
@@ -24,7 +24,7 @@ class FactsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun getFactCategory_FactHasNoCategory_ReturnUncategorized(){
+    fun getFactCategory_FactHasNoCategory_ReturnUncategorized() {
         val fact = Fact("test", "http://chuck.norris")
         val uncategorizedString = appContext.getString(R.string.uncategorized)
 
@@ -33,8 +33,8 @@ class FactsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun getFactTextSize_FactHasShortText_ReturnBigTextSize(){
-        val shortText = "".padEnd(FactsViewModel.FACT_TEXT_LENGTH_LIMIT, 'a')
+    fun getFactTextSize_FactHasShortText_ReturnBigTextSize() {
+        val shortText = "".padEnd(FactsViewModel.FACT_TEXT_LENGTH_THRESHOLD, 'a')
         val fact = Fact(shortText, "http://chuck.norris")
 
         val textSize = viewModel.getFactTextSize(fact)
@@ -42,8 +42,8 @@ class FactsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun getFactTextSize_FactHasLongText_ReturnSmallTextSize(){
-        val longText = "".padEnd(FactsViewModel.FACT_TEXT_LENGTH_LIMIT + 1, 'a')
+    fun getFactTextSize_FactHasLongText_ReturnSmallTextSize() {
+        val longText = "".padEnd(FactsViewModel.FACT_TEXT_LENGTH_THRESHOLD + 1, 'a')
         val fact = Fact(longText, "http://chuck.norris")
 
         val textSize = viewModel.getFactTextSize(fact)
@@ -51,14 +51,13 @@ class FactsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun getFactShareText_ShareFact_TextContainsUrl(){
+    fun getFactShareText_ShareFact_TextContainsUrl() {
         val fact = Fact("test", "http://chuck.norris")
 
         val shareText = viewModel.getFactShareText(fact)
-        expectThat(shareText){
+        expectThat(shareText) {
             isNotEmpty()
             containsIgnoringCase(fact.url)
         }
     }
-
 }

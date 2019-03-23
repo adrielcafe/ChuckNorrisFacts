@@ -29,7 +29,7 @@ class AppComponent(private val appContext: Context) : Component {
         viewModel { SearchViewModel(factsRepository = get(), searchRepository = get()) }
     }
 
-    override fun getModules() = listOf(
+    override fun getModules() = setOf(
         preferenceModule,
         serviceModule,
         repositoryModule,
