@@ -6,6 +6,7 @@ import cafe.adriel.chucknorrisfacts.repository.facts.FactsRepository
 import com.pacoworks.rxpaper2.RxPaperBook
 import org.junit.Test
 import org.koin.test.inject
+import retrofit2.HttpException
 import strikt.api.expectThat
 import strikt.api.expectThrows
 import strikt.assertions.hasSize
@@ -31,7 +32,7 @@ class FactsRepositoryTest : BaseTest() {
 
     @Test
     fun getFacts_QueryIsNotSupported_ThrowException() {
-        expectThrows<Throwable> {
+        expectThrows<HttpException> {
             factsRepository.getFacts(MockFactsService.QUERY_ERROR_RESULT).blockingGet()
         }
     }
