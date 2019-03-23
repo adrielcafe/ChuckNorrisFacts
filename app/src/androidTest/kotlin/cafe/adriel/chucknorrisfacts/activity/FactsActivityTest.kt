@@ -21,32 +21,32 @@ class FactsActivityTest : BaseActivityTest<FactsActivity>() {
     override val activityRule = activityScenarioRule<FactsActivity>()
 
     @Test
-    fun searchWithUserInput_ShowItems() {
+    fun searchWithUserInput_showItems() {
         searchByQuery(MockFactsService.QUERY_SUCCESS_RESULT)
         assertListNotEmpty(R.id.vFacts)
     }
 
     @Test
-    fun searchWithSuggestion_ShowItems() {
+    fun searchWithSuggestion_showItems() {
         searchBySuggestion(0)
         assertListNotEmpty(R.id.vFacts)
     }
 
     @Test
-    fun searchWithPastSearch_ShowItems() {
+    fun searchWithPastSearch_showItems() {
         searchByQuery(MockFactsService.QUERY_SUCCESS_RESULT)
         searchByPastSearch(MockFactsService.QUERY_SUCCESS_RESULT)
         assertListNotEmpty(R.id.vFacts)
     }
 
     @Test
-    fun searchWithQueryWithNoItem_ShowEmptyState() {
+    fun searchWithQueryWithNoItem_showEmptyState() {
         searchByQuery(MockFactsService.QUERY_EMPTY_RESULT)
         assertDisplayed(R.id.vStateTitle, R.string.no_facts)
     }
 
     @Test
-    fun searchWithNotSupportedQuery_ShowErrorState() {
+    fun searchWithNotSupportedQuery_showErrorState() {
         searchByQuery(MockFactsService.QUERY_ERROR_RESULT)
         assertDisplayed(R.id.vStateTitle, R.string.something_went_wrong)
     }

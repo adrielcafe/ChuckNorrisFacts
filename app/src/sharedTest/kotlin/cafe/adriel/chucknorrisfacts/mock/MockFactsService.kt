@@ -1,6 +1,6 @@
 package cafe.adriel.chucknorrisfacts.mock
 
-import okhttp3.mock.Behavior.UNORDERED
+import okhttp3.mock.Behavior.RELAYED
 import okhttp3.mock.ClasspathResources.resource
 import okhttp3.mock.HttpCode.HTTP_500_INTERNAL_SERVER_ERROR
 import okhttp3.mock.MediaTypes.MEDIATYPE_JSON
@@ -17,7 +17,7 @@ object MockFactsService {
     const val QUERY_ERROR_RESULT = "error"
 
     val mockInterceptor by lazy {
-        MockInterceptor(UNORDERED).apply {
+        MockInterceptor(RELAYED).apply {
             // /search endpoint
             rule(get, url endsWith "/search?query=$QUERY_ERROR_RESULT", times = Int.MAX_VALUE) {
                 respond(HTTP_500_INTERNAL_SERVER_ERROR)

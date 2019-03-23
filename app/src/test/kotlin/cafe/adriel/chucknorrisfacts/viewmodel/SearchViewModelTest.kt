@@ -16,7 +16,7 @@ class SearchViewModelTest : BaseTest() {
     private val viewModel by inject<SearchViewModel>()
 
     @Test
-    fun formatQuery_QueryIsSelected_ReturnFormattedQuery() {
+    fun formatQuery_queryIsSelected_returnFormattedQuery() {
         val unformattedQuery = " Query "
 
         val formattedQuery = viewModel.formatQuery(unformattedQuery)
@@ -29,7 +29,7 @@ class SearchViewModelTest : BaseTest() {
     }
 
     @Test
-    fun isQueryValid_QueryIsEmpty_ReturnFalse() {
+    fun isQueryValid_queryIsEmpty_returnFalse() {
         val query = ""
 
         val isValid = viewModel.isQueryValid(query)
@@ -37,7 +37,7 @@ class SearchViewModelTest : BaseTest() {
     }
 
     @Test
-    fun isQueryValid_QueryIsTooShort_ReturnFalse() {
+    fun isQueryValid_queryIsTooShort_returnFalse() {
         val query = "de"
 
         val isValid = viewModel.isQueryValid(query)
@@ -45,7 +45,7 @@ class SearchViewModelTest : BaseTest() {
     }
 
     @Test
-    fun isQueryValid_QueryIsLongEnough_ReturnTrue() {
+    fun isQueryValid_queryIsLongEnough_returnTrue() {
         val query = "dev"
 
         val isValid = viewModel.isQueryValid(query)
@@ -53,7 +53,7 @@ class SearchViewModelTest : BaseTest() {
     }
 
     @Test
-    fun isQueryValid_QueryIsVeryLong_ReturnTrue() {
+    fun isQueryValid_queryIsVeryLong_returnTrue() {
         val query = "Chuck Norris can unit test entire apps with a single assert"
 
         val isValid = viewModel.isQueryValid(query)
