@@ -108,11 +108,10 @@ class SearchActivity : BaseActivity<SearchViewState>() {
         }
     }
 
-    private fun createChipView(query: String) =
-        Chip(this).apply {
-            text = viewModel.formatQuery(query)
-            setTextColor(Color.WHITE)
-            setChipBackgroundColorResource(R.color.colorAccent)
-            setOnClickListener { returnQuery(query) }
-        }
+    private fun createChipView(query: String) = Chip(this).apply {
+        text = viewModel.formatQuery(query)
+        setTextColor(Color.WHITE)
+        setChipBackgroundColorResource(R.color.colorAccent)
+        setOnClickListener { returnQuery(query) }
+    }
 }
