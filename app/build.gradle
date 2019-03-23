@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'jacoco-android'
 
 def rawBuildNumber = System.getenv("BITRISE_BUILD_NUMBER") ?: "1"
 def buildNumber = Integer.parseInt(rawBuildNumber)
@@ -24,12 +25,14 @@ android {
         versionName "1.0.0"
 
         testInstrumentationRunner "cafe.adriel.chucknorrisfacts.runner.TestRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
 
         buildConfigField 'String', 'CHUCK_NORRIS_API_BASE_URL', '\"https://api.chucknorris.io/jokes/\"'
     }
     buildTypes {
         debug {
             useProguard false
+            testCoverageEnabled true
             buildConfigField 'Boolean', 'RELEASE', 'false'
         }
         release {
@@ -64,6 +67,8 @@ android {
         defaultCacheImplementation "SPARSE_ARRAY"
     }
     testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled true
         unitTests {
             includeAndroidResources true
         }
@@ -72,6 +77,14 @@ android {
 
 kapt {
     useBuildCache true
+}
+
+jacoco {
+    toolVersion "0.8.3"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses true
 }
 
 dependencies {
@@ -129,6 +142,8 @@ dependencies {
     testImplementation "org.opentest4j:opentest4j:1.1.1" // Required by Strikt
 
     // Espresso Test
+    androidTestUtil 'androidx.test:orchestrator:1.1.1'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
     androidTestImplementation "androidx.test:core-ktx:1.1.0"
     androidTestImplementation "androidx.test.ext:junit-ktx:1.1.0"
