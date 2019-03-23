@@ -12,7 +12,7 @@ import java.net.UnknownHostException
 class ServiceFactoryTest : BaseTest() {
 
     @Test
-    fun newInstance_CreateApiService_ReturnValidServiceInstance() {
+    fun newInstance_createApiService_returnValidServiceInstance() {
         val testService = ServiceFactory.newInstance<TestService>(TestService.BASE_URL)
         expectThat(testService).isA<TestService>()
         expectThrows<UnknownHostException> {
@@ -28,5 +28,4 @@ class ServiceFactoryTest : BaseTest() {
         @GET("test")
         fun getTest(): Call<Unit>
     }
-
 }

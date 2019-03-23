@@ -17,7 +17,7 @@ class SearchRepositoryTest : BaseTest() {
     private val preferences by inject<RxPaperBook>()
 
     @Test
-    fun addSearchQuery_AddSameQueryTwice_ReturnListWithoutDuplicates() {
+    fun addSearchQuery_addSameQueryTwice_returnListWithoutDuplicates() {
         val query = "test"
         repeat(2) {
             searchRepository.addSearchQuery(query).blockingGet()
@@ -29,7 +29,7 @@ class SearchRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun addSearchQuery_AddMultipleQueries_LastSearchedQueryIsFirstInTheList() {
+    fun addSearchQuery_addMultipleQueries_lastSearchedQueryIsFirstInTheList() {
         val queries = listOf("test1", "test2", "test3")
         queries.forEach {
             searchRepository.addSearchQuery(it).blockingGet()
@@ -40,13 +40,13 @@ class SearchRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun getPastSearches_IsFirstAppRun_ReturnEmptyList() {
+    fun getPastSearches_isFirstAppRun_returnEmptyList() {
         val pastSearches = preferences.read(SearchRepository.PREF_PAST_SEARCHES, emptyList<String>()).blockingGet()
         expectThat(pastSearches).isEmpty()
     }
 
     @Test
-    fun getPastSearches_ShowPastSearches_ReturnNotEmptyList() {
+    fun getPastSearches_showPastSearches_returnNotEmptyList() {
         repeat(3) {
             val query = "test $it"
             searchRepository.addSearchQuery(query).blockingGet()
@@ -57,7 +57,7 @@ class SearchRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun getPastSearches_ShowPastSearches_ReturnListWithCorrectSize() {
+    fun getPastSearches_showPastSearches_returnListWithCorrectSize() {
         // Add more queries than allowed
         repeat(SearchRepository.MAX_SEARCH_QUERIES + 1) {
             val query = "test $it"

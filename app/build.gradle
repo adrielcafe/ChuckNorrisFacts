@@ -122,23 +122,28 @@ dependencies {
 
     // View
     implementation "cz.kinst.jakub:android-stateful-layout-base:2.0.8"
-    implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.16"
+    implementation "com.github.bumptech.glide:glide:4.9.0"
+    implementation "com.link184:kid-adapter:1.1.7"
 
     // Util
     implementation "com.github.ajalt:timberkt:1.5.1"
-    implementation "com.link184:kid-adapter:1.1.7"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$leakcanary_version"
 
     // Unit Test
     testImplementation "junit:junit:4.12"
-    testImplementation "androidx.test:core-ktx:1.1.0"
     testImplementation "org.robolectric:robolectric:4.2.1"
+    testImplementation "androidx.test.espresso:espresso-core:3.1.1"
+    testImplementation "androidx.test.espresso:espresso-intents:3.1.1"
+    testImplementation "androidx.test:core-ktx:1.1.0"
+    testImplementation "androidx.test.ext:junit-ktx:1.1.0"
     testImplementation "org.koin:koin-test:2.0.0-rc-1"
-    testImplementation "com.github.gmazzo:okhttp-mock:1.3.1"
     testImplementation "com.github.robfletcher.strikt:strikt-core:v0.19.3"
     testImplementation "org.opentest4j:opentest4j:1.1.1" // Required by Strikt
+    testImplementation "com.github.adrielcafe:Barista:4d295648f9" // Fork https://github.com/adrielcafe/Barista
+    testImplementation "com.squareup.rx.idler:rx2-idler:0.9.1"
+    testImplementation "com.github.gmazzo:okhttp-mock:1.3.1"
 
     // Espresso Test
     androidTestUtil 'androidx.test:orchestrator:1.1.1'

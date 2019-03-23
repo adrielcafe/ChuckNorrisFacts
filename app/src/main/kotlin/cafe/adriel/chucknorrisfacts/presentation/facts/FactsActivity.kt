@@ -16,6 +16,7 @@ import cafe.adriel.chucknorrisfacts.model.Fact
 import cafe.adriel.chucknorrisfacts.presentation.BaseActivity
 import cafe.adriel.chucknorrisfacts.presentation.BaseViewEvent
 import cafe.adriel.chucknorrisfacts.presentation.search.SearchActivity
+import com.bumptech.glide.Glide
 import com.etiennelenhart.eiffel.state.peek
 import com.google.android.material.card.MaterialCardView
 import com.link184.kidadapter.setUp
@@ -27,7 +28,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class FactsActivity : BaseActivity<FactsViewState>() {
 
     companion object {
-        private const val REQUEST_QUERY = 0
+        const val REQUEST_QUERY = 0
 
         private const val LAYOUT_STATE_CONTENT = "content"
         private const val LAYOUT_STATE_LOADING = "loading"
@@ -100,8 +101,14 @@ class FactsActivity : BaseActivity<FactsViewState>() {
         val layoutInflater = LayoutInflater.from(this)
         with(vStateLayout) {
             setStateView(LAYOUT_STATE_LOADING, layoutInflater.inflate(R.layout.state_loading, null))
-            setStateView(LAYOUT_STATE_EMPTY, layoutInflater.inflate(R.layout.state_empty, null))
             setStateView(LAYOUT_STATE_ERROR, layoutInflater.inflate(R.layout.state_error, null))
+            setStateView(LAYOUT_STATE_EMPTY, layoutInflater.inflate(R.layout.state_empty, null).apply {
+                // Load empty state image
+                Glide.with(this)
+                    .asGif()
+                    .load(R.drawable.state_empty)
+                    .into(findViewById(R.id.vStateImage))
+            })
         }
     }
 
