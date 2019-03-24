@@ -24,11 +24,11 @@ workflows:
         inputs:
         - project_location: "$PROJECT_LOCATION"
         - module: "$MODULE"
-        - variant: "$VARIANT"
+        - variant: "$RELEASE_VARIANT"
     - sign-apk@1.2.4:
         run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
     - deploy-to-bitrise-io@1.3.19: {}
-    - cache-push@2.0.5: {}
+    - cache-push@2.1.0: {}
     before_run:
     - primary
   primary:
@@ -88,3 +88,6 @@ app:
   - opts:
       is_expand: false
     VARIANT: debug
+  - opts:
+      is_expand: false
+    RELEASE_VARIANT: release
