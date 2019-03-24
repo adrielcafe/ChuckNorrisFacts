@@ -52,7 +52,8 @@ class FactsViewModel(
         if (fact.text.length <= FACT_TEXT_LENGTH_THRESHOLD) FACT_TEXT_SIZE_BIG else FACT_TEXT_SIZE_SMALL
 
     fun getFactShareText(fact: Fact): String =
-        """Chuck Norris fact:
+        """
+            Chuck Norris fact:
             ${fact.text}
 
             ${fact.url}
