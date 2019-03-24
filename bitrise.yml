@@ -14,8 +14,6 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@4.0.14: {}
     - cache-pull@2.0.1: {}
-    - script@1.1.5:
-        title: Do anything with Script step
     - install-missing-android-tools@2.3.5:
         inputs:
         - gradlew_path: "$PROJECT_LOCATION/gradlew"
@@ -51,6 +49,11 @@ workflows:
     - install-missing-android-tools@2.3.5:
         inputs:
         - gradlew_path: "$PROJECT_LOCATION/gradlew"
+    - gradle-runner@1.8.4:
+        inputs:
+        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+        - gradle_task: spotlessKotlinCheck
+        title: ktlint
     - android-lint@0.9.6:
         inputs:
         - project_location: "$PROJECT_LOCATION"

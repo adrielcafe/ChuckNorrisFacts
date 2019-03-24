@@ -121,9 +121,9 @@ dependencies {
     implementation "com.github.etiennelenhart:eiffel:4.1.0"
 
     // View
-    implementation "cz.kinst.jakub:android-stateful-layout-base:2.0.8"
     implementation "com.github.bumptech.glide:glide:4.9.0"
     implementation "com.link184:kid-adapter:1.1.7"
+    implementation "cz.kinst.jakub:android-stateful-layout-base:2.0.8"
 
     // Util
     implementation "com.github.ajalt:timberkt:1.5.1"

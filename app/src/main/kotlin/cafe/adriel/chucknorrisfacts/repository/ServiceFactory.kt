@@ -50,5 +50,4 @@ object ServiceFactory {
             .build()
             .create(javaClass())
     }
-
 }
