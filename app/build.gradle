@@ -5,12 +5,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'jacoco-android'
 
-// Bitrise env vars
-def buildNumber = Integer.parseInt(System.getenv("BITRISE_BUILD_NUMBER") ?: "1")
-
 // Robolectric and Paper use different versions of ASM lib, so we must force the most recent one
 configurations.all {
     resolutionStrategy.force 'org.ow2.asm:asm:7.1'
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses true
 }
 
 android {
@@ -21,7 +22,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
 
-        versionCode buildNumber
+        versionCode 1
         versionName "1.0.0"
 
         testInstrumentationRunner "cafe.adriel.chucknorrisfacts.runner.TestRunner"
@@ -82,10 +83,6 @@ jacoco {
     toolVersion "0.8.3"
 }
 
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses true
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -93,18 +90,17 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     // Android
-    implementation "com.google.android.material:material:1.1.0-alpha04"
-    implementation "androidx.appcompat:appcompat:1.1.0-alpha03"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha03"
-    implementation "androidx.core:core-ktx:1.1.0-alpha05"
-    implementation "androidx.fragment:fragment-ktx:1.1.0-alpha05"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.core:core-ktx:$core_ktx_version"
 
     // Rx
-    implementation "io.reactivex.rxjava2:rxjava:2.2.7"
-    implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
-    implementation "com.github.pakoito:RxPaper2:1.4.0"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    implementation "com.github.pakoito:RxPaper2:$rxpaper2_version"
 
     // Network
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -112,48 +108,44 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation "com.squareup.moshi:moshi:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:3.14.0"
-
-    // DI
-    implementation "org.koin:koin-android-viewmodel:2.0.0-rc-1"
-    
-    // Immutable State
-    implementation "com.github.etiennelenhart:eiffel:4.1.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
 
     // View
-    implementation "com.github.bumptech.glide:glide:4.9.0"
-    implementation "com.link184:kid-adapter:1.1.7"
-    implementation "cz.kinst.jakub:android-stateful-layout-base:2.0.8"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    implementation "com.link184:kid-adapter:$kid_adapter_version"
+    implementation "cz.kinst.jakub:android-stateful-layout-base:$stateful_layout_version"
 
     // Util
-    implementation "com.github.ajalt:timberkt:1.5.1"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
+    implementation "com.github.etiennelenhart:eiffel:$eiffel_version"
+    implementation "com.github.ajalt:timberkt:$timberkt_version"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$leakcanary_version"
 
     // Unit Test
-    testImplementation "junit:junit:4.12"
-    testImplementation "org.robolectric:robolectric:4.2.1"
-    testImplementation "androidx.test.espresso:espresso-core:3.1.1"
-    testImplementation "androidx.test.espresso:espresso-intents:3.1.1"
-    testImplementation "androidx.test:core-ktx:1.1.0"
-    testImplementation "androidx.test.ext:junit-ktx:1.1.0"
-    testImplementation "org.koin:koin-test:2.0.0-rc-1"
-    testImplementation "com.github.robfletcher.strikt:strikt-core:v0.19.3"
-    testImplementation "org.opentest4j:opentest4j:1.1.1" // Required by Strikt
-    testImplementation "com.github.adrielcafe:Barista:4d295648f9" // Fork https://github.com/adrielcafe/Barista
-    testImplementation "com.squareup.rx.idler:rx2-idler:0.9.1"
-    testImplementation "com.github.gmazzo:okhttp-mock:1.3.1"
+    testImplementation "junit:junit:$test_junit_version"
+    testImplementation "org.robolectric:robolectric:$test_robolectric_version"
+    testImplementation "androidx.test.espresso:espresso-core:$test_espresso_version"
+    testImplementation "androidx.test.espresso:espresso-intents:$test_espresso_version"
+    testImplementation "androidx.test:core-ktx:$test_core_ktx_version"
+    testImplementation "androidx.test.ext:junit-ktx:$test_junit_ktx_version"
+    testImplementation "org.koin:koin-test:$koin_version"
+    testImplementation "com.github.robfletcher.strikt:strikt-core:$test_strikt_version"
+    testImplementation "org.opentest4j:opentest4j:$test_opentest4j_version"
+    testImplementation "com.github.adrielcafe:Barista:$test_barista_version"
+    testImplementation "com.squareup.rx.idler:rx2-idler:$test_rx2_idler_version"
+    testImplementation "com.github.gmazzo:okhttp-mock:$test_okhttp_mock_version"
 
     // Espresso Test
-    androidTestUtil 'androidx.test:orchestrator:1.1.1'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
-    androidTestImplementation "androidx.test:core-ktx:1.1.0"
-    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.0"
-    androidTestImplementation "com.github.adrielcafe:Barista:4d295648f9" // Fork https://github.com/adrielcafe/Barista
-    androidTestImplementation "com.squareup.rx.idler:rx2-idler:0.9.1"
-    androidTestImplementation "com.github.gmazzo:okhttp-mock:1.3.1"
+    androidTestUtil "androidx.test:orchestrator:$test_orchestrator_version"
+    androidTestImplementation "androidx.test:runner:$test_runner_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$test_espresso_version"
+    androidTestImplementation "androidx.test:core-ktx:$test_core_ktx_version"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$test_junit_ktx_version"
+    androidTestImplementation "com.github.adrielcafe:Barista:$test_barista_version"
+    androidTestImplementation "com.squareup.rx.idler:rx2-idler:$test_rx2_idler_version"
+    androidTestImplementation "com.github.gmazzo:okhttp-mock:$test_okhttp_mock_version"
 }
 
 apply from: '../spotless.gradle'

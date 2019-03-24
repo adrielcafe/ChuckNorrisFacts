@@ -20,17 +20,7 @@ workflows:
     - change-android-versioncode-and-versionname@1.1.1:
         inputs:
         - build_gradle_path: "$PROJECT_LOCATION/$MODULE/build.gradle"
-    - android-lint@0.9.5:
-        inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - module: "$MODULE"
-        - variant: "$VARIANT"
-    - android-unit-test@0.9.5:
-        inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - module: "$MODULE"
-        - variant: "$VARIANT"
-    - android-build@0.9.5:
+    - android-build@0.9.6:
         inputs:
         - project_location: "$PROJECT_LOCATION"
         - module: "$MODULE"
@@ -39,6 +29,8 @@ workflows:
         run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
     - deploy-to-bitrise-io@1.3.19: {}
     - cache-push@2.0.5: {}
+    before_run:
+    - primary
   primary:
     steps:
     - chuck-norris@1.0.1: {}
@@ -49,6 +41,9 @@ workflows:
     - install-missing-android-tools@2.3.5:
         inputs:
         - gradlew_path: "$PROJECT_LOCATION/gradlew"
+    - change-android-versioncode-and-versionname@1.1.1:
+        inputs:
+        - build_gradle_path: "$PROJECT_LOCATION/$MODULE/build.gradle"
     - android-lint@0.9.6:
         inputs:
         - project_location: "$PROJECT_LOCATION"
