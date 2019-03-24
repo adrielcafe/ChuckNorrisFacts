@@ -6,6 +6,8 @@
 
 Android app powered by [Chuck Norris facts API](https://api.chucknorris.io/).
 
+Sample APK [here](https://app.bitrise.io/artifact/13367550/p/c965378103d159f37eae06e9dc1d4ba6).
+
 <img src="https://github.com/adrielcafe/ChuckNorrisFacts/blob/master/demo.gif?raw=true" width="350">
 
 ### Build with
@@ -28,6 +30,17 @@ Android app powered by [Chuck Norris facts API](https://api.chucknorris.io/).
 * [Barista](https://github.com/SchibstedSpain/Barista)
 * [Strikt](https://github.com/robfletcher/strikt)
 * [okhttp-client-mock](https://github.com/gmazzo/okhttp-client-mock)
+
+## Build
+The project can be build with [Android Studio](https://developer.android.com/studio) or through the command line:
+```
+./gradlew assembleDebug
+```
+
+To build and install on the connected device:
+```
+./gradlew installDebug
+```
 
 ## Lint
 This project uses [ktlint](https://github.com/pinterest/ktlint) through the [spotless plugin](https://github.com/diffplug/spotless).
