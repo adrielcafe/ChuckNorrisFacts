@@ -6,7 +6,7 @@
 
 Android app powered by [Chuck Norris facts API](https://api.chucknorris.io/).
 
-![Demo](https://github.com/adrielcafe/ChuckNorrisFacts/blob/master/demo.gif?raw=true)
+<img src="https://github.com/adrielcafe/ChuckNorrisFacts/blob/master/demo.gif?raw=true" width="350">
 
 ### Build with
 
@@ -60,7 +60,8 @@ To generate it on your machine:
 ```
 ./gradlew jacocoTestDebugUnitTestReport
 ```
-
-![Code Coverage](https://codecov.io/gh/adrielcafe/ChuckNorrisFacts/branch/master/graphs/icicle.svg)
-
-*Current coverage graph*
+<p align="center">
+  <img src="https://codecov.io/gh/adrielcafe/ChuckNorrisFacts/branch/master/graphs/icicle.svg">
+  <br>
+  <i>Current coverage graph</i>
+</p>
