@@ -133,7 +133,7 @@ dependencies {
     testImplementation "org.koin:koin-test:$koin_version"
     testImplementation "com.github.robfletcher.strikt:strikt-core:$test_strikt_version"
     testImplementation "org.opentest4j:opentest4j:$test_opentest4j_version"
-    testImplementation "com.github.adrielcafe:Barista:$test_barista_version"
+    testImplementation "com.schibsted.spain:barista:$test_barista_version"
     testImplementation "com.squareup.rx.idler:rx2-idler:$test_rx2_idler_version"
     testImplementation "com.github.gmazzo:okhttp-mock:$test_okhttp_mock_version"
 
@@ -143,7 +143,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$test_espresso_version"
     androidTestImplementation "androidx.test:core-ktx:$test_core_ktx_version"
     androidTestImplementation "androidx.test.ext:junit-ktx:$test_junit_ktx_version"
-    androidTestImplementation "com.github.adrielcafe:Barista:$test_barista_version"
+    androidTestImplementation "com.schibsted.spain:barista:$test_barista_version"
     androidTestImplementation "com.squareup.rx.idler:rx2-idler:$test_rx2_idler_version"
     androidTestImplementation "com.github.gmazzo:okhttp-mock:$test_okhttp_mock_version"
 }
