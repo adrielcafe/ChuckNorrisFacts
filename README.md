@@ -1,5 +1,6 @@
 [![Build Status](https://app.bitrise.io/app/e26f64bbf0cb8d28/status.svg?token=FZ7LO_Dr3gxWUiMjPRXTDg&branch=master)](https://app.bitrise.io/app/e26f64bbf0cb8d28) 
 [![Code Coverage](https://codecov.io/gh/adrielcafe/ChuckNorrisFacts/branch/master/graph/badge.svg)](https://codecov.io/gh/adrielcafe/ChuckNorrisFacts) 
+[![Codebeat](https://codebeat.co/badges/300b1528-f22e-409c-b734-644a4beeca6b)](https://codebeat.co/projects/github-com-adrielcafe-chucknorrisfacts-master) 
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
 <h1><img src="https://github.com/adrielcafe/ChuckNorrisFacts/blob/master/app/src/main/res/drawable/state_empty.gif?raw=true">Chuck Norris Facts</h1>
